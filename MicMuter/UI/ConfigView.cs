@@ -7,23 +7,11 @@ using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Components.Settings;
 using BeatSaberMarkupLanguage.Parser;
 using MicMuter.Configuration;
-using CSCore.CoreAudioAPI;
 
 namespace MicMuter.UI {
-    [ViewDefinition("MicMuter.UI.Views.ConfigView.bsml")]
-    public class ConfigViewController : BSMLAutomaticViewController {
+    public class ConfigView : PersistentSingleton<ConfigView> { 
 
         private PluginConfig _settings = PluginConfig.Instance;
-        private Dictionary<string, string> micDeviceList = new Dictionary<string, string>();
-
-        public void UpdateMicrophoneList() {
-            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
-            micSelectOptions.Clear();
-            foreach (var mic in enumerator.EnumAudioEndpoints(DataFlow.Capture, DeviceState.Active)) {
-                micSelectOptions.Add(mic.FriendlyName);
-                micDeviceList.Add(mic.FriendlyName, mic.DeviceID);
-            }
-        }
 
         [UIValue("enabled")]
         protected bool Enabled {
@@ -41,7 +29,7 @@ namespace MicMuter.UI {
         protected object micDeviceValue {
             get {
                 if (!string.IsNullOrEmpty(_settings.MicDeviceID)) {
-                    string deviceName = micDeviceList.FirstOrDefault(x => x.Value == _settings.MicDeviceID).Key;
+                    string deviceName = MicDeviceUtils.micDeviceList.FirstOrDefault(x => x.Value == _settings.MicDeviceID).Key;
                     return (object)deviceName;
                 }
                 else {
@@ -49,11 +37,11 @@ namespace MicMuter.UI {
                 }
             }
             set {
-                _settings.MicDeviceID = micDeviceList[value as string];
+                _settings.MicDeviceID = MicDeviceUtils.micDeviceList[value as string];
             }
         }
 
         [UIValue("micdevice-options")]
-        public List<object> micSelectOptions = new List<object>();
+        public List<object> micSelectOptions = MicDeviceUtils.micSelectOptions;
     }
 }

@@ -12,7 +12,7 @@ using IPALogger = IPA.Logging.Logger;
 using CSCore.CoreAudioAPI;
 using MicMuter.UI;
 using BeatSaberMarkupLanguage;
-using BeatSaberMarkupLanguage.MenuButtons;
+using BeatSaberMarkupLanguage.Settings;
 using HMUI;
 
 namespace MicMuter {
@@ -21,8 +21,6 @@ namespace MicMuter {
         internal static Plugin Instance { get; private set; }
         internal static IPALogger Log { get; private set; }
         private PauseController pauseController;
-        public MenuButton mainMenuButton;
-        public static FlowCoordinator flowCoordinator;
 
         //CoreAudioApi device and event guid
         public static MMDevice microphone;
@@ -48,9 +46,10 @@ namespace MicMuter {
             //Scene changed event to mute/unmute
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
 
-            //Register main menu button
-            mainMenuButton = new MenuButton("MicMuter", "MicMuter settings", onSettingsbtnpress, true);
-            MenuButtons.instance.RegisterButton(mainMenuButton);
+            //Register mod settings menu button
+            MicDeviceUtils.UpdateMicrophoneList();
+            BSMLSettings.instance.AddSettingsMenu("MicMuter", "MicMuter.UI.Views.ConfigView.bsml", ConfigView.instance);
+            
 
             //Get microphone devices
             MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
@@ -69,13 +68,6 @@ namespace MicMuter {
             }
             Log.Info(microphone.FriendlyName);
 
-        }
-
-        internal void onSettingsbtnpress() {
-            if (flowCoordinator == null) {
-                flowCoordinator = BeatSaberUI.CreateFlowCoordinator<PluginFlowCoordinator>();
-            }
-            BeatSaberUI.MainFlowCoordinator.PresentFlowCoordinator(flowCoordinator);
         }
 
         [OnExit]
