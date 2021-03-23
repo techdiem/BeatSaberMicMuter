@@ -1,0 +1,7 @@
+﻿<vertical vertical-fit="PreferredSize" spacing="2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd">
+
+  <bool-setting text="Enabled" value="enabled" apply-on-change="true" />
+  <bool-setting text="Unmute on pause" value="pause-unmute" apply-on-change="true" />
+  <dropdown-list-setting options="micdevice-options" text="Microphone" value="micdevice-value" apply-on-change="true" />
+  
+</vertical>

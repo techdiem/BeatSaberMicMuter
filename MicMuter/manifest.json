@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+  "id": "MicMuter",
+  "name": "MicMuter",
+  "author": "TechDiem",
+  "version": "1.0.0",
+  "description": "Mutes your microphone when ingame",
+  "gameVersion": "1.14.0",
+  "dependsOn": {
+    "BSIPA": "^4.1.6",
+    "BeatSaberMarkupLanguage": "^1.5.2"
+  },
+  "features": []
+}
