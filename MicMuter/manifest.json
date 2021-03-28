@@ -10,5 +10,9 @@
     "BSIPA": "^4.1.6",
     "BeatSaberMarkupLanguage": "^1.5.2"
   },
+  "links":{
+    "project-home": "https://github.com/techdiem/BeatSaberMicMuter",
+    "project-source": "https://github.com/techdiem/BeatSaberMicMuter"
+  },
   "features": []
 }
