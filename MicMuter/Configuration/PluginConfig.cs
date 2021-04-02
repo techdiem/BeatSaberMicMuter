@@ -1,7 +1,6 @@
 ﻿
 using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
-using CSCore.CoreAudioAPI;
 using UnityEngine.SceneManagement;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
@@ -28,11 +27,10 @@ namespace MicMuter.Configuration
         public virtual void Changed()
         {
             // Do stuff when the config is changed.
+            Plugin.Log.Info("Config changed");
 
             //Update audio device
-            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
-            Plugin.microphone = enumerator.GetDevice(MicDeviceID);
-            Plugin.Log.Info("Switched audio device");
+            MicDeviceUtils.SelectConfiguredMic(MicDeviceID);
         }
 
         /// <summary>

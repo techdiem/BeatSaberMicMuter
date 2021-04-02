@@ -8,7 +8,6 @@ using MicMuter.Configuration;
 
 namespace MicMuter {
     class MicDeviceUtils {
-        private PluginConfig _settings = PluginConfig.Instance;
         public static Dictionary<string, string> micDeviceList = new Dictionary<string, string>();
         public static List<object> micSelectOptions = new List<object>();
 
@@ -21,5 +20,25 @@ namespace MicMuter {
             }
         }
 
+        public static void SelectConfiguredMic(string micDeviceID) {
+            MMDevice selectedMic;
+            //Get microphone devices
+            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
+            var devices = enumerator.EnumAudioEndpoints(DataFlow.Capture, DeviceState.Active);
+
+
+            //Load microphone id from config
+            if (micDeviceID == "") {
+                selectedMic = devices.FirstOrDefault();
+                PluginConfig.Instance.MicDeviceID = selectedMic.DeviceID;
+                Plugin.Log.Info("No device configured, using default");
+            }
+            else {
+                selectedMic = enumerator.GetDevice(micDeviceID);
+                Plugin.Log.Info("Using device from config");
+            }
+            Plugin.microphone = selectedMic;
+            Plugin.Log.Info(selectedMic.FriendlyName);
+        }
     }
 }

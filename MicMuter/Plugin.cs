@@ -36,6 +36,8 @@ namespace MicMuter {
             Instance = this;
             Log = logger;
             PluginConfig.Instance = conf.Generated<PluginConfig>();
+
+            //Generate GUID to identify the plugin's interaction with the CoreAudioAPI
             eventguid = Guid.NewGuid();
             
         }
@@ -49,24 +51,9 @@ namespace MicMuter {
             //Register mod settings menu button
             MicDeviceUtils.UpdateMicrophoneList();
             BSMLSettings.instance.AddSettingsMenu("MicMuter", "MicMuter.UI.Views.ConfigView.bsml", ConfigView.instance);
-            
 
-            //Get microphone devices
-            MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
-            var devices = enumerator.EnumAudioEndpoints(DataFlow.Capture, DeviceState.Active);
-            
-
-            //Load microphone id from config
-            if(PluginConfig.Instance.MicDeviceID == "") {
-                microphone = devices.FirstOrDefault();
-                PluginConfig.Instance.MicDeviceID = microphone.DeviceID;
-                Log.Info("No device configured");
-            }
-            else {
-                microphone = enumerator.GetDevice(PluginConfig.Instance.MicDeviceID);
-                Log.Info("Using device from config");
-            }
-            Log.Info(microphone.FriendlyName);
+            //Load microphone device
+            MicDeviceUtils.SelectConfiguredMic(PluginConfig.Instance.MicDeviceID);
 
         }
 
