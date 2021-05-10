@@ -44,20 +44,19 @@ namespace MicMuter {
             if (micDeviceID == "") {
                 microphone = devices.FirstOrDefault();
                 PluginConfig.Instance.MicDeviceID = microphone.DeviceID;
-                Plugin.Log.Info("No device configured, using default");
+                Plugin.Log.Info($"No device configured, using default: {microphone.FriendlyName}");
             }
             else {
                 microphone = enumerator.GetDevice(micDeviceID);
-                Plugin.Log.Info("Using device from config");
+                Plugin.Log.Info($"Using device from config: {microphone.FriendlyName}");
             }
-            Plugin.Log.Info(microphone.FriendlyName);
         }
 
         public static void SetMicMute(bool muted) {
             var endpoint = AudioEndpointVolume.FromDevice(microphone);
             if (endpoint.GetMute() != muted) {
                 endpoint.SetMute(muted, eventguid);
-                Plugin.Log.Info(muted.ToString());
+                Plugin.Log.Info($"Microphone muted: {muted}");
             }
         }
     }
