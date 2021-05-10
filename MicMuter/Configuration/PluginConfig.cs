@@ -1,7 +1,5 @@
-﻿
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
-using UnityEngine.SceneManagement;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace MicMuter.Configuration
@@ -9,9 +7,10 @@ namespace MicMuter.Configuration
     internal class PluginConfig
     {
         public static PluginConfig Instance { get; set; }
-        public virtual string MicDeviceID { get; set; } = ""; // Must be 'virtual' if you want BSIPA to detect a value change and save the config automatically.
+        public virtual string MicDeviceID { get; set; } = "";
         public virtual bool Enabled { get; set; } = true;
         public virtual bool UnmuteOnPause { get; set; } = true;
+        public virtual bool MultiMuteEnabled { get; set; } = true;
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
@@ -26,9 +25,6 @@ namespace MicMuter.Configuration
         /// </summary>
         public virtual void Changed()
         {
-            // Do stuff when the config is changed.
-            Plugin.Log.Info("Config changed");
-
             //Update audio device
             MicDeviceUtils.SelectConfiguredMic(MicDeviceID);
         }

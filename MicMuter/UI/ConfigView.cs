@@ -2,10 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using BeatSaberMarkupLanguage;
-using BeatSaberMarkupLanguage.ViewControllers;
 using BeatSaberMarkupLanguage.Attributes;
-using BeatSaberMarkupLanguage.Components.Settings;
-using BeatSaberMarkupLanguage.Parser;
 using MicMuter.Configuration;
 
 namespace MicMuter.UI {
@@ -25,8 +22,14 @@ namespace MicMuter.UI {
             set => _settings.UnmuteOnPause = value;
         }
 
+        [UIValue("multi-mute")]
+        protected bool MultiMuteEnabled {
+            get => _settings.MultiMuteEnabled;
+            set => _settings.MultiMuteEnabled = value;
+        }
+
         [UIValue("micdevice-value")]
-        protected object micDeviceValue {
+        protected object MicDeviceValue {
             get {
                 if (!string.IsNullOrEmpty(_settings.MicDeviceID)) {
                     string deviceName = MicDeviceUtils.micDeviceList.FirstOrDefault(x => x.Value == _settings.MicDeviceID).Key;
