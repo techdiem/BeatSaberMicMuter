@@ -8,8 +8,22 @@ using MicMuter.Configuration;
 
 namespace MicMuter {
     class MicDeviceUtils {
+        //GUI variables
         public static Dictionary<string, string> micDeviceList = new Dictionary<string, string>();
         public static List<object> micSelectOptions = new List<object>();
+
+        //CoreAudioApi device and event guid
+        public static MMDevice microphone;
+        public static Guid eventguid;
+
+        public static void Setup() {
+            //Generate GUID to identify the plugin's interaction with the CoreAudioAPI
+            eventguid = Guid.NewGuid();
+
+            //Load microphone device
+            UpdateMicrophoneList();
+            SelectConfiguredMic(PluginConfig.Instance.MicDeviceID);
+        }
 
         public static void UpdateMicrophoneList() {
             MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
@@ -21,7 +35,6 @@ namespace MicMuter {
         }
 
         public static void SelectConfiguredMic(string micDeviceID) {
-            MMDevice selectedMic;
             //Get microphone devices
             MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
             var devices = enumerator.EnumAudioEndpoints(DataFlow.Capture, DeviceState.Active);
@@ -29,16 +42,23 @@ namespace MicMuter {
 
             //Load microphone id from config
             if (micDeviceID == "") {
-                selectedMic = devices.FirstOrDefault();
-                PluginConfig.Instance.MicDeviceID = selectedMic.DeviceID;
+                microphone = devices.FirstOrDefault();
+                PluginConfig.Instance.MicDeviceID = microphone.DeviceID;
                 Plugin.Log.Info("No device configured, using default");
             }
             else {
-                selectedMic = enumerator.GetDevice(micDeviceID);
+                microphone = enumerator.GetDevice(micDeviceID);
                 Plugin.Log.Info("Using device from config");
             }
-            Plugin.microphone = selectedMic;
-            Plugin.Log.Info(selectedMic.FriendlyName);
+            Plugin.Log.Info(microphone.FriendlyName);
+        }
+
+        public static void SetMicMute(bool muted) {
+            var endpoint = AudioEndpointVolume.FromDevice(microphone);
+            if (endpoint.GetMute() != muted) {
+                endpoint.SetMute(muted, eventguid);
+                Plugin.Log.Info(muted.ToString());
+            }
         }
     }
 }

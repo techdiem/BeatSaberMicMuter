@@ -9,7 +9,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
-using CSCore.CoreAudioAPI;
 using MicMuter.UI;
 using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.Settings;
@@ -22,24 +21,11 @@ namespace MicMuter {
         internal static IPALogger Log { get; private set; }
         private PauseController pauseController;
 
-        //CoreAudioApi device and event guid
-        public static MMDevice microphone;
-        public static Guid eventguid;
-
         [Init]
-        /// <summary>
-        /// Called when the plugin is first loaded by IPA (either when the game starts or when the plugin is enabled if it starts disabled).
-        /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
-        /// Only use [Init] with one Constructor.
-        /// </summary>
         public void Init(IPALogger logger, IPA.Config.Config conf) {
             Instance = this;
             Log = logger;
             PluginConfig.Instance = conf.Generated<PluginConfig>();
-
-            //Generate GUID to identify the plugin's interaction with the CoreAudioAPI
-            eventguid = Guid.NewGuid();
-            
         }
 
         [OnStart]
@@ -49,12 +35,10 @@ namespace MicMuter {
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
 
             //Register mod settings menu button
-            MicDeviceUtils.UpdateMicrophoneList();
-            BSMLSettings.instance.AddSettingsMenu("MicMuter", "MicMuter.UI.Views.ConfigView.bsml", ConfigView.instance);
+            BSMLSettings.instance.AddSettingsMenu("MicMuter", "MicMuter.UI.ConfigView.bsml", ConfigView.instance);
 
-            //Load microphone device
-            MicDeviceUtils.SelectConfiguredMic(PluginConfig.Instance.MicDeviceID);
-
+            //Microphone device setup
+            MicDeviceUtils.Setup();
         }
 
         [OnExit]
@@ -67,12 +51,12 @@ namespace MicMuter {
 
             if (PluginConfig.Instance.Enabled) {
                 if (newScene.name == "MenuCore") {
-                    SetMicMute(false);
+                    MicDeviceUtils.SetMicMute(false);
                     OnSongExited();
 
                 }
                 else if (newScene.name == "GameCore") {
-                    SetMicMute(true);
+                    MicDeviceUtils.SetMicMute(true);
                     OnSongStarted();
                 }
             }
@@ -103,19 +87,11 @@ namespace MicMuter {
 
         public void OnGamePause() {
             Log.Info("GamePause");
-            SetMicMute(false);
+            MicDeviceUtils.SetMicMute(false);
         }
         public void OnGameResume() {
             Log.Info("GameResume");
-            SetMicMute(true);
-        }
-
-        public void SetMicMute(bool muted) {
-        var endpoint = AudioEndpointVolume.FromDevice(microphone);
-        if (endpoint.GetMute() != muted) {
-            endpoint.SetMute(muted, eventguid);
-            Log.Info(muted.ToString());
-        }
+            MicDeviceUtils.SetMicMute(true);
         }
     }
 }
