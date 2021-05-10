@@ -27,6 +27,8 @@ namespace MicMuter {
                 Plugin.Log.Critical("Can't get Multiplayer SessionManager!");
                 return;
             }
+
+            onlineActivated = true;
         }
 
         public static void Cleanup() {
@@ -38,13 +40,22 @@ namespace MicMuter {
             return obj;
         }
 
-        public static void OnActiveSceneChanged(Scene oldscene, Scene newScene) {
+        private static void OnActiveSceneChanged(Scene oldscene, Scene newScene) {
             Plugin.Log.Debug(newScene.name);
-
             if (PluginConfig.Instance.Enabled && 
-                (!SessionManager.isConnected || 
-                (SessionManager.isConnected && PluginConfig.Instance.MultiMuteEnabled))) {
+                onlineActivated && SessionManager != null) {
+                if (!SessionManager.isConnected ||
+                    (SessionManager.isConnected && PluginConfig.Instance.MultiMuteEnabled)) {
+                    if (newScene.name == "MenuCore") {
+                        OnSongExited();
 
+                    }
+                    else if (newScene.name == "GameCore") {
+                        OnSongStarted();
+                    }
+                }
+            }
+            else if (PluginConfig.Instance.Enabled) {
                 if (newScene.name == "MenuCore") {
                     OnSongExited();
 
