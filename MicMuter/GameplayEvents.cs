@@ -10,6 +10,7 @@ namespace MicMuter {
         private static PauseController pauseController;
         public static MultiplayerSessionManager SessionManager { get; private set; }
         private static bool onlineActivated = false;
+        private static bool mpconnected = false;
 
         public static void Setup() {
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
@@ -28,11 +29,19 @@ namespace MicMuter {
                 return;
             }
 
+            SessionManager.connectedEvent += OnMultiplayerConnected;
+            SessionManager.disconnectedEvent += OnMultiplayerDisconnected;
+
             onlineActivated = true;
         }
 
         public static void Cleanup() {
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+
+            if (SessionManager != null) {
+                SessionManager.connectedEvent -= OnMultiplayerConnected;
+                SessionManager.disconnectedEvent -= OnMultiplayerDisconnected;
+            }
         }
 
         private static T FindFirstOrDefaultOptional<T>() where T : UnityEngine.Object {
@@ -42,20 +51,9 @@ namespace MicMuter {
 
         private static void OnActiveSceneChanged(Scene oldscene, Scene newScene) {
             Plugin.Log.Debug(newScene.name);
-            if (PluginConfig.Instance.Enabled && 
-                onlineActivated && SessionManager != null) {
-                if (!SessionManager.isConnected ||
-                    (SessionManager.isConnected && PluginConfig.Instance.MultiMuteEnabled)) {
-                    if (newScene.name == "MenuCore") {
-                        OnSongExited();
 
-                    }
-                    else if (newScene.name == "GameCore") {
-                        OnSongStarted();
-                    }
-                }
-            }
-            else if (PluginConfig.Instance.Enabled) {
+            if ((PluginConfig.Instance.MultiEnabled && mpconnected) ||
+                (PluginConfig.Instance.Enabled && !mpconnected)) {
                 if (newScene.name == "MenuCore") {
                     OnSongExited();
 
@@ -94,6 +92,17 @@ namespace MicMuter {
         private static void OnGameResume() {
             Plugin.Log.Debug("GameResume");
             MicDeviceUtils.SetMicMute(true);
+        }
+
+        private static void OnMultiplayerConnected() {
+            Plugin.Log.Debug("Multiplayer connected");
+            //Using events instead of SessionManager.isconnected() because it
+            //becomes easier in the condition since the SessionManager can be null
+            mpconnected = true;
+        }
+        private static void OnMultiplayerDisconnected(DisconnectedReason reason) {
+            Plugin.Log.Debug("Multiplayer disconnected");
+            mpconnected = false;
         }
     }
 }

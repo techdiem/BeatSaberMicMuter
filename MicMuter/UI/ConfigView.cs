@@ -22,10 +22,10 @@ namespace MicMuter.UI {
             set => _settings.UnmuteOnPause = value;
         }
 
-        [UIValue("multi-mute")]
-        protected bool MultiMuteEnabled {
-            get => _settings.MultiMuteEnabled;
-            set => _settings.MultiMuteEnabled = value;
+        [UIValue("multi-enabled")]
+        protected bool MultiEnabled {
+            get => _settings.MultiEnabled;
+            set => _settings.MultiEnabled = value;
         }
 
         [UIValue("micdevice-value")]

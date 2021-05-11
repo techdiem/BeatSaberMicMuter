@@ -10,7 +10,7 @@ namespace MicMuter.Configuration
         public virtual string MicDeviceID { get; set; } = "";
         public virtual bool Enabled { get; set; } = true;
         public virtual bool UnmuteOnPause { get; set; } = true;
-        public virtual bool MultiMuteEnabled { get; set; } = true;
+        public virtual bool MultiEnabled { get; set; } = true;
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
