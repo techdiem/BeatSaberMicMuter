@@ -5,7 +5,7 @@
   "author": "TechDiem",
   "version": "1.1.0",
   "description": "Mutes your microphone when ingame",
-  "gameVersion": "1.14.0",
+  "gameVersion": "1.15.0",
   "dependsOn": {
     "BSIPA": "^4.1.6",
     "BeatSaberMarkupLanguage": "^1.5.2"

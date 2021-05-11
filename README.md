@@ -1,7 +1,7 @@
 # MicMuter
 A Beat Saber mod that automatically mutes a selected microphone while playing a song.
 
-Compatible with Beat Saber 1.14.0
+Compatible with Beat Saber 1.15.0
 
 ## Installation
 * Required dependency (can be installed using Mod Assistant)
@@ -12,12 +12,11 @@ Compatible with Beat Saber 1.14.0
 
 ## Configuration
 You can configure the plugin using the  `Settings (⚙) -> Mod Settings -> MicMuter` menu.
-* Enabled: Enable automatic mic muting/unmuting
-* Unmute on pause: Select whether the microphone should be activated while in the pause menu
-* Microphone: Select your microphone device.
+* Enabled in singleplayer/party/campaign: Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)
+* Enabled in multiplayer: Enable automatic muting in multiplayer (online)
+* Unmute on pause: Unmute the microphone while in the pause menu (only singleplayer)
+* Microphone: Select your microphone here. Make sure that every name only exists once.
 
-## Disclaimer
-This is my first Beat Saber mod and I have little experience in c#, so bugs may occur. I will try to improve the quality of the code in the future.
 
 ## Credits 
 * [CSCore](https://github.com/filoe/cscore): Library used to access the CoreAudioApi to control the microphone

@@ -1,13 +1,13 @@
 ﻿<vertical vertical-fit="PreferredSize" spacing="2" anchor-pos-y='3' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd">
 
-  <text text="Enable automatic muting in singleplayer, multiplayer or both." />
+  <text text="Enable automatic mic mute in singleplayer, multiplayer or both." />
   
   <bool-setting text="Enabled in singleplayer/party/campaign" value="enabled" apply-on-change="true"
                 hover-hint="Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)" />
   <bool-setting text="Enabled in multiplayer" value="multi-enabled" apply-on-change="true"
                 hover-hint="Enable automatic muting in multiplayer (online)"/>
   <bool-setting text="Unmute on pause" value="pause-unmute" apply-on-change="true"
-                hover-hint="Unmute the microphone if the game is paused (only singleplayer)"/>
+                hover-hint="Unmute the microphone while in the pause menu (only singleplayer)"/>
   
   <dropdown-list-setting options="micdevice-options" text="Microphone" value="micdevice-value" apply-on-change="true"
                 hover-hint="Select your microphone here. Make sure that every name only exists once."/>
