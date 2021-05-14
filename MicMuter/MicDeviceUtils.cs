@@ -65,5 +65,10 @@ namespace MicMuter {
                 Plugin.Log.Info($"Microphone muted: {muted}");
             }
         }
+
+        public static bool GetMuteStatus() {
+            var endpoint = AudioEndpointVolume.FromDevice(microphone);
+            return endpoint.GetMute();
+        }
     }
 }
