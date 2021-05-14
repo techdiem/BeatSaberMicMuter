@@ -46,6 +46,12 @@ namespace MicMuter {
                 PluginConfig.Instance.MicDeviceID = microphone.DeviceID;
                 Plugin.Log.Info($"No device configured, using default: {microphone.FriendlyName}");
             }
+            else if (microphone != null) {
+                if (microphone.DeviceID != micDeviceID) {
+                    microphone = enumerator.GetDevice(micDeviceID);
+                    Plugin.Log.Info($"Switching device to {microphone.FriendlyName}");
+                }
+            }
             else {
                 microphone = enumerator.GetDevice(micDeviceID);
                 Plugin.Log.Info($"Using device from config: {microphone.FriendlyName}");
