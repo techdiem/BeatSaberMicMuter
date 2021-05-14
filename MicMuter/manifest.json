@@ -3,7 +3,7 @@
   "id": "MicMuter",
   "name": "MicMuter",
   "author": "TechDiem",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Mutes your microphone when ingame",
   "gameVersion": "1.15.0",
   "dependsOn": {
