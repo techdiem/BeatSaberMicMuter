@@ -6,7 +6,7 @@ namespace MicMuter.Harmony {
         public static void Postfix(MultiplayerModeSelectionViewController __instance, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
             
             //Set up multiplayer session manager
-            GameplayEvents.SetupMP();
+            EventMute.SetupMP();
         }
     }
 }

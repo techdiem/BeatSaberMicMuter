@@ -3,17 +3,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MicMuter.Configuration;
+using BS_Utils.Utilities;
 
 namespace MicMuter {
-    public static class GameplayEvents {
-
-        private static PauseController pauseController;
+    public static class EventMute {
         public static MultiplayerSessionManager SessionManager { get; private set; }
         private static bool onlineActivated = false;
         private static bool mpconnected = false;
 
         public static void Setup() {
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            BSEvents.menuSceneActive += OnSongExited;
+            BSEvents.gameSceneActive += OnSongStarted;
+            BSEvents.songPaused += OnGamePause;
+            BSEvents.songUnpaused += OnGameResume;
         }
 
         public static void SetupMP() {
@@ -36,7 +38,10 @@ namespace MicMuter {
         }
 
         public static void Cleanup() {
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            BSEvents.menuSceneActive -= OnSongExited;
+            BSEvents.gameSceneActive -= OnSongStarted;
+            BSEvents.songPaused -= OnGamePause;
+            BSEvents.songUnpaused -= OnGameResume;
 
             if (SessionManager != null) {
                 SessionManager.connectedEvent -= OnMultiplayerConnected;
@@ -49,49 +54,30 @@ namespace MicMuter {
             return obj;
         }
 
-        private static void OnActiveSceneChanged(Scene oldscene, Scene newScene) {
-            Plugin.Log.Debug(newScene.name);
-
+        private static void OnSongStarted() {
             if ((PluginConfig.Instance.MultiEnabled && mpconnected) ||
                 (PluginConfig.Instance.Enabled && !mpconnected)) {
-                if (newScene.name == "MenuCore") {
-                    OnSongExited();
-
-                }
-                else if (newScene.name == "GameCore") {
-                    OnSongStarted();
-                }
-            }
-        }
-
-        private static void OnSongStarted() {
-            MicDeviceUtils.SetMicMute(true);
-
-            pauseController = FindFirstOrDefaultOptional<PauseController>();
-
-            //no pauseController in multiplayer
-            if (pauseController != null && PluginConfig.Instance.UnmuteOnPause) {
-                pauseController.didPauseEvent += OnGamePause;
-                pauseController.didResumeEvent += OnGameResume;
+                MicDeviceUtils.SetMicMute(true);
             }
         }
 
         private static void OnSongExited() {
-            MicDeviceUtils.SetMicMute(false);
-
-            if (pauseController != null && PluginConfig.Instance.UnmuteOnPause) {
-                pauseController.didPauseEvent -= OnGamePause;
-                pauseController.didResumeEvent -= OnGameResume;
+            if ((PluginConfig.Instance.MultiEnabled && mpconnected) ||
+                (PluginConfig.Instance.Enabled && !mpconnected)) {
+                MicDeviceUtils.SetMicMute(false);
             }
         }
 
         private static void OnGamePause() {
-            Plugin.Log.Debug("GamePause");
-            MicDeviceUtils.SetMicMute(false);
+            if (PluginConfig.Instance.UnmuteOnPause) {
+                MicDeviceUtils.SetMicMute(false);
+            }
         }
+
         private static void OnGameResume() {
-            Plugin.Log.Debug("GameResume");
-            MicDeviceUtils.SetMicMute(true);
+            if (PluginConfig.Instance.UnmuteOnPause) {
+                MicDeviceUtils.SetMicMute(true);
+            }
         }
 
         private static void OnMultiplayerConnected() {
