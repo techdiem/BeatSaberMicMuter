@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.Attributes;
 using MicMuter.Configuration;
+using TMPro;
 
 namespace MicMuter.UI {
     public class ConfigView : PersistentSingleton<ConfigView> { 
@@ -46,5 +47,20 @@ namespace MicMuter.UI {
 
         [UIValue("micdevice-options")]
         public List<object> micSelectOptions = MicDeviceUtils.micSelectOptions;
+
+        [UIComponent("togglescreenhandlebtn")]
+        private TextMeshProUGUI toggleScreenHandleBtnText;
+
+        [UIAction("togglescreenhandle")]
+        protected void ClickToggleButtonAction() {
+            bool oldstate = MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle;
+            MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle = !oldstate;
+            if (oldstate) {
+                toggleScreenHandleBtnText.text = "Show movement handle";
+            }
+            else {
+                toggleScreenHandleBtnText.text = "Hide movement handle";
+            }
+        }
     }
 }

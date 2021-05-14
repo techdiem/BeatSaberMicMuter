@@ -1,15 +1,35 @@
-﻿<vertical vertical-fit="PreferredSize" spacing="2" anchor-pos-y='3' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd">
+﻿<settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+  <vertical child-control-height='false'>
+    <horizontal>
+      <text text='Enable automatic mic mute in singleplayer, multiplayer or both.'/>
+    </horizontal>
+    <bool-setting text="Enabled in singleplayer/party/campaign" value="enabled" apply-on-change="true"
+                  hover-hint="Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)" />
+    <bool-setting text="Enabled in multiplayer" value="multi-enabled" apply-on-change="true"
+                  hover-hint="Enable automatic muting in multiplayer (online)"/>
+    <bool-setting text="Unmute on pause" value="pause-unmute" apply-on-change="true"
+                  hover-hint="Unmute the microphone while in the pause menu (only singleplayer)"/>
 
-  <text text="Enable automatic mic mute in singleplayer, multiplayer or both." />
+    <dropdown-list-setting options="micdevice-options" text="Microphone" value="micdevice-value" apply-on-change="true"
+                  hover-hint="Select your microphone here. Make sure that every name only exists once."/>
   
-  <bool-setting text="Enabled in singleplayer/party/campaign" value="enabled" apply-on-change="true"
-                hover-hint="Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)" />
-  <bool-setting text="Enabled in multiplayer" value="multi-enabled" apply-on-change="true"
-                hover-hint="Enable automatic muting in multiplayer (online)"/>
-  <bool-setting text="Unmute on pause" value="pause-unmute" apply-on-change="true"
-                hover-hint="Unmute the microphone while in the pause menu (only singleplayer)"/>
-  
-  <dropdown-list-setting options="micdevice-options" text="Microphone" value="micdevice-value" apply-on-change="true"
-                hover-hint="Select your microphone here. Make sure that every name only exists once."/>
-
-</vertical>
+    <settings-submenu text='Floating Mute Button'>
+      <settings-container>
+        <vertical child-control-height='false'>
+          <clickable-text text='Back' click-event='back' />
+          <horizontal>
+            <text text='Click the button to show a white handle at the left side of the mute button.'/>
+          </horizontal>
+          <horizontal>
+            <text text='Move the button to the position you want and disable the handle.'/>
+          </horizontal>
+          <horizontal>
+            <text text='The position will be saved.'/>
+          </horizontal>
+        
+          <button text='Show movement handle' on-click='togglescreenhandle' id='togglescreenhandlebtn'></button>
+        </vertical>
+      </settings-container>
+    </settings-submenu>
+  </vertical>
+</settings-container>

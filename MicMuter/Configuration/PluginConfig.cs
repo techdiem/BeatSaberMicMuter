@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
+using UnityEngine;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace MicMuter.Configuration
@@ -12,12 +13,15 @@ namespace MicMuter.Configuration
         public virtual bool UnmuteOnPause { get; set; } = true;
         public virtual bool MultiEnabled { get; set; } = true;
 
+        //Floating mute button
+        public virtual Vector3 screenPos { get; set; } = new Vector3(-1f, 0.6f, 2f);
+        public virtual Quaternion screenRot { get; set; } = Quaternion.Euler(25f, 330f, 6.5f);
+
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
         /// </summary>
         public virtual void OnReload()
         {
-            // Do stuff after config is read from disk.
         }
 
         /// <summary>

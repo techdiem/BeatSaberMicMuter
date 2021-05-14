@@ -22,6 +22,7 @@ namespace MicMuter {
             Instance = this;
             Log = logger;
             PluginConfig.Instance = conf.Generated<PluginConfig>();
+            BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
         }
 
         [OnStart]
@@ -33,18 +34,24 @@ namespace MicMuter {
             //new GameObject("MicMuterController").AddComponent<MicMuterController>();
             
             //Gameplay events to mute/unmute
-            GameplayEvents.Setup();
+            EventMute.Setup();
             
             //Register mod settings menu button
             BSMLSettings.instance.AddSettingsMenu("MicMuter", "MicMuter.UI.ConfigView.bsml", ConfigView.instance);
 
             //Microphone device setup
             MicDeviceUtils.Setup();
+
+        }
+
+        private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj) {
+            //Floating mute button
+            MuteButtonWindowController.Instance.ShowMuteWindow();
         }
 
         [OnExit]
         public void OnApplicationQuit() {
-            GameplayEvents.Cleanup();
+            EventMute.Cleanup();
         }
     }
 }
