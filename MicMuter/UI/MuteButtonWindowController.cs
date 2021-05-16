@@ -28,10 +28,19 @@ namespace MicMuter.UI {
         protected MuteButtonWindow MuteButtonWindow;
         protected MuteButtonWindowController() {
             BSEvents.earlyMenuSceneLoadedFresh += BSEvents_earlyMenuSceneLoadedFresh;
-            BSEvents.menuSceneActive += OnSongExited;
-            BSEvents.gameSceneActive += OnSongStarted;
-            BSEvents.songPaused += OnGamePause;
-            BSEvents.songUnpaused += OnGameResume;
+        }
+
+        public void Cleanup() {
+            BSEvents.earlyMenuSceneLoadedFresh -= BSEvents_earlyMenuSceneLoadedFresh;
+            BSEvents.menuSceneActive -= OnSongExited;
+            BSEvents.gameSceneActive -= OnSongStarted;
+            BSEvents.songPaused -= OnGamePause;
+            BSEvents.songUnpaused -= OnGameResume;
+
+            if (MuteButtonScreen != null) {
+                GameObject.Destroy(MuteButtonScreen.gameObject);
+                MuteButtonScreen = null;
+            }
         }
 
         private void BSEvents_earlyMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj) {
@@ -47,6 +56,7 @@ namespace MicMuter.UI {
                 MuteButtonWindow = BeatSaberUI.CreateViewController<MuteButtonWindow>();
                 MuteButtonWindow.ParentCoordinator = this;
                 MuteButtonScreen.SetRootViewController(MuteButtonWindow, HMUI.ViewController.AnimationType.None);
+                AttachEvents();
             }
             MuteButtonScreen.gameObject.SetActive(true);
             MuteButtonWindow.UpdateMutebtnText();
@@ -55,8 +65,8 @@ namespace MicMuter.UI {
         public FloatingScreen CreateFloatingScreen() {
             FloatingScreen screen = FloatingScreen.CreateFloatingScreen(
                 new Vector2(25, 15), false,
-                PluginConfig.Instance.screenPos,
-                PluginConfig.Instance.screenRot);
+                PluginConfig.Instance.ScreenPos,
+                PluginConfig.Instance.ScreenRot);
 
             screen.HandleReleased -= OnRelease;
             screen.HandleReleased += OnRelease;
@@ -65,12 +75,19 @@ namespace MicMuter.UI {
             return screen;
         }
 
+        private void AttachEvents() {
+            BSEvents.menuSceneActive += OnSongExited;
+            BSEvents.gameSceneActive += OnSongStarted;
+            BSEvents.songPaused += OnGamePause;
+            BSEvents.songUnpaused += OnGameResume;
+        }
+
         private void OnRelease(object _, FloatingScreenHandleEventArgs posRot) {
             Vector3 newPos = posRot.Position;
             Quaternion newRot = posRot.Rotation;
 
-            PluginConfig.Instance.screenPos = newPos;
-            PluginConfig.Instance.screenRot = newRot;
+            PluginConfig.Instance.ScreenPos = newPos;
+            PluginConfig.Instance.ScreenRot = newRot;
         }
 
         private void OnSongExited() {

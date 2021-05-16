@@ -17,6 +17,8 @@
       <settings-container>
         <vertical child-control-height='false'>
           <clickable-text text='Back' click-event='back' />
+          <bool-setting text="Enable floating mute button" value="screenEnabled" apply-on-change="true"
+                 hover-hint="Show a little mute button everywhere instead of ingame" />
           <horizontal>
             <text text='Click the button to show a white handle at the left side of the mute button.'/>
           </horizontal>

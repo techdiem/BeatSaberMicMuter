@@ -48,18 +48,31 @@ namespace MicMuter.UI {
         [UIValue("micdevice-options")]
         public List<object> micSelectOptions = MicDeviceUtils.micSelectOptions;
 
+        [UIValue("screenEnabled")]
+        protected bool ScreenEnabled {
+            get => _settings.ScreenEnabled;
+            set { 
+                _settings.ScreenEnabled = value;
+                //Reset button text in case that the handle is activated but the gameobject gets removed
+                toggleScreenHandleBtnText.text = "Show movement handle";
+            }
+        }
+
+
         [UIComponent("togglescreenhandlebtn")]
         private TextMeshProUGUI toggleScreenHandleBtnText;
 
         [UIAction("togglescreenhandle")]
         protected void ClickToggleButtonAction() {
-            bool oldstate = MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle;
-            MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle = !oldstate;
-            if (oldstate) {
-                toggleScreenHandleBtnText.text = "Show movement handle";
-            }
-            else {
-                toggleScreenHandleBtnText.text = "Hide movement handle";
+            if (MuteButtonWindowController.Instance.MuteButtonScreen != null) {
+                bool oldstate = MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle;
+                MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle = !oldstate;
+                if (oldstate) {
+                    toggleScreenHandleBtnText.text = "Show movement handle";
+                }
+                else {
+                    toggleScreenHandleBtnText.text = "Hide movement handle";
+                }
             }
         }
     }

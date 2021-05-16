@@ -16,6 +16,7 @@ namespace MicMuter {
         internal static HarmonyLib.Harmony Harmony { get; private set; }
         internal static Plugin Instance { get; private set; }
         internal static IPALogger Log { get; private set; }
+        public static bool startupReady = false;
 
         [Init]
         public void Init(IPALogger logger, IPA.Config.Config conf) {
@@ -45,13 +46,17 @@ namespace MicMuter {
         }
 
         private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj) {
-            //Floating mute button
-            MuteButtonWindowController.Instance.ShowMuteWindow();
+            startupReady = true;
+            if (PluginConfig.Instance.ScreenEnabled) {
+                //Floating mute button
+                MuteButtonWindowController.Instance.ShowMuteWindow();
+            }
         }
 
         [OnExit]
         public void OnApplicationQuit() {
             EventMute.Cleanup();
+            MuteButtonWindowController.Instance.Cleanup();
         }
     }
 }
