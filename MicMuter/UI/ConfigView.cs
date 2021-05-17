@@ -65,6 +65,7 @@ namespace MicMuter.UI {
         [UIAction("togglescreenhandle")]
         protected void ClickToggleButtonAction() {
             if (MuteButtonWindowController.Instance.MuteButtonScreen != null) {
+                Plugin.Log.Debug("Toggle screen handle visibility");
                 bool oldstate = MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle;
                 MuteButtonWindowController.Instance.MuteButtonScreen.ShowHandle = !oldstate;
                 if (oldstate) {
