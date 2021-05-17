@@ -64,7 +64,7 @@ namespace MicMuter.UI {
 
         public FloatingScreen CreateFloatingScreen() {
             FloatingScreen screen = FloatingScreen.CreateFloatingScreen(
-                new Vector2(25, 15), false,
+                new Vector2(20, 10), false,
                 PluginConfig.Instance.ScreenPos,
                 PluginConfig.Instance.ScreenRot);
 
