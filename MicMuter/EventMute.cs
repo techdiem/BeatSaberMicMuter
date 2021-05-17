@@ -14,6 +14,8 @@ namespace MicMuter {
         public static void Setup() {
             BSEvents.menuSceneActive += OnSongExited;
             BSEvents.gameSceneActive += OnSongStarted;
+            BSEvents.songPaused += OnGamePause;
+            BSEvents.songUnpaused += OnGameResume;
         }
 
         public static void SetupMP() {
@@ -38,6 +40,8 @@ namespace MicMuter {
         public static void Cleanup() {
             BSEvents.menuSceneActive -= OnSongExited;
             BSEvents.gameSceneActive -= OnSongStarted;
+            BSEvents.songPaused -= OnGamePause;
+            BSEvents.songUnpaused -= OnGameResume;
 
             if (SessionManager != null) {
                 SessionManager.connectedEvent -= OnMultiplayerConnected;
@@ -54,8 +58,6 @@ namespace MicMuter {
             if ((PluginConfig.Instance.MultiEnabled && mpconnected) ||
                 (PluginConfig.Instance.Enabled && !mpconnected)) {
                 MicDeviceUtils.SetMicMute(true);
-                BSEvents.songPaused += OnGamePause;
-                BSEvents.songUnpaused += OnGameResume;
             }
         }
 
@@ -63,19 +65,17 @@ namespace MicMuter {
             if ((PluginConfig.Instance.MultiEnabled && mpconnected) ||
                 (PluginConfig.Instance.Enabled && !mpconnected)) {
                 MicDeviceUtils.SetMicMute(false);
-                BSEvents.songPaused -= OnGamePause;
-                BSEvents.songUnpaused -= OnGameResume;
             }
         }
 
         private static void OnGamePause() {
-            if (PluginConfig.Instance.UnmuteOnPause) {
+            if (PluginConfig.Instance.UnmuteOnPause && PluginConfig.Instance.Enabled) {
                 MicDeviceUtils.SetMicMute(false);
             }
         }
 
         private static void OnGameResume() {
-            if (PluginConfig.Instance.UnmuteOnPause) {
+            if (PluginConfig.Instance.UnmuteOnPause && PluginConfig.Instance.Enabled) {
                 MicDeviceUtils.SetMicMute(true);
             }
         }

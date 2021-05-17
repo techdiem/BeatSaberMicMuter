@@ -13,6 +13,7 @@ Compatible with Beat Saber 1.15.0
     * You should see a MicMuter entry in the Mod Settings menu when installed.
 
 ## Configuration
+Please restart the game once after the first start with this mod installed, else the config may not be applied.
 You can configure the plugin using the  `Settings (⚙) -> Mod Settings -> MicMuter` menu.
 * Enabled in singleplayer/party/campaign: Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)
 * Enabled in multiplayer: Enable automatic muting in multiplayer (online)
