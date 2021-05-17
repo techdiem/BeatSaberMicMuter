@@ -90,19 +90,26 @@ namespace MicMuter.UI {
             PluginConfig.Instance.ScreenRot = newRot;
         }
 
+        private void SetVisibility(bool visibility) {
+            if (MuteButtonScreen != null) {
+                MuteButtonScreen.gameObject.SetActive(visibility);
+                if (visibility) {
+                    MuteButtonWindow.UpdateMutebtnText();
+                }
+            }
+        }
+
         private void OnSongExited() {
-            MuteButtonScreen.gameObject.SetActive(true);
-            MuteButtonWindow.UpdateMutebtnText();
+            SetVisibility(true);
         }
         private void OnSongStarted() {
-            MuteButtonScreen.gameObject.SetActive(false);
+            SetVisibility(false);
         }
         private void OnGamePause() {
-            MuteButtonScreen.gameObject.SetActive(true);
-            MuteButtonWindow.UpdateMutebtnText();
+            SetVisibility(true);
         }
         private void OnGameResume() {
-            MuteButtonScreen.gameObject.SetActive(false);
+            SetVisibility(false);
         }
 
     }
