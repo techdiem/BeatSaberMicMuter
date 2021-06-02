@@ -5,7 +5,7 @@ Optionally it displays a mute button that is always visible except during play (
 Compatible with Beat Saber 1.16.1
 
 ## Installation
-* Required dependency (can be installed using Mod Assistant)
+* Required dependencies (can be installed using Mod Assistant)
     * BeatSaberMarkupLanguage v1.5.3+
     * BS_Utils v1.10.0+
 * Mod installation
