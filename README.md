@@ -9,7 +9,7 @@ Compatible with Beat Saber 1.16.1
     * BeatSaberMarkupLanguage v1.5.3+
     * BS_Utils v1.10.0+
 * Mod installation
-    * Download the latest DLL from the [Releases](https://github.com/TechDiem/BeatSaberMicMuter/releases/latest) page and copy it into your Plugins folder.
+    * Download the latest DLL from the [Releases](https://github.com/techdiem/BeatSaberMicMuter/releases/latest) page and copy it into your Plugins folder.
     * You should see a MicMuter entry in the Mod Settings menu when installed.
 
 ## Configuration
