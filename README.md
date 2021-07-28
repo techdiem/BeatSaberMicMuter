@@ -2,12 +2,12 @@
 A Beat Saber mod that automatically mutes a selected microphone while playing a song.
 Optionally it displays a mute button that is always visible except during play (check configuration).
 
-Compatible with Beat Saber 1.16.1
+Compatible with Beat Saber 1.16.4
 
 ## Installation
 * Required dependencies (can be installed using Mod Assistant)
-    * BeatSaberMarkupLanguage v1.5.3+
-    * BS_Utils v1.10.0+
+    * BeatSaberMarkupLanguage v1.5.4+
+    * BS_Utils v1.11.0+
 * Mod installation
     * Download the latest DLL from the [Releases](https://github.com/techdiem/BeatSaberMicMuter/releases/latest) page and copy it into your Plugins folder.
     * You should see a MicMuter entry in the Mod Settings menu when installed.
