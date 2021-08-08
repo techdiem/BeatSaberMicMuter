@@ -1,19 +1,47 @@
 ﻿<settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
   <vertical child-control-height='false'>
-    <horizontal>
-      <text text='Enable automatic mic mute in singleplayer, multiplayer or both.'/>
-    </horizontal>
-    <bool-setting text="Enabled in singleplayer/party/campaign" value="enabled" apply-on-change="true"
-                  hover-hint="Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)" />
-    <bool-setting text="Enabled in multiplayer" value="multi-enabled" apply-on-change="true"
-                  hover-hint="Enable automatic muting in multiplayer (online)"/>
-    <bool-setting text="Unmute on pause" value="pause-unmute" apply-on-change="true"
-                  hover-hint="Unmute the microphone while in the pause menu (only singleplayer)"/>
 
+    <horizontal>
+      <text text='Mute your mic automatically, via PTT or with a floating button.'/>
+    </horizontal>
+    <horizontal>
+      <text text='Select your VR microphone here:'/>
+    </horizontal>
     <dropdown-list-setting options="micdevice-options" text="Microphone" value="micdevice-value" apply-on-change="true"
                   hover-hint="Select your microphone here. Make sure that every name only exists once."/>
-  
-    <settings-submenu text='Floating Mute Button'>
+    
+    <settings-submenu text='Automatic mute'>
+      <settings-container>
+        <vertical child-control-height='false'>
+          <clickable-text text='Back' click-event='back' />
+          <horizontal>
+            <text text='Enable automatic mic mute in singleplayer, multiplayer or both.'/>
+          </horizontal>
+          <bool-setting text="Enabled in singleplayer/party/campaign" value="enabled" apply-on-change="true"
+                        hover-hint="Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)" />
+          <bool-setting text="Enabled in multiplayer" value="multi-enabled" apply-on-change="true"
+                        hover-hint="Enable automatic muting in multiplayer (online)"/>
+          <bool-setting text="Unmute on pause" value="pause-unmute" apply-on-change="true"
+                        hover-hint="Unmute the microphone while in the pause menu (only singleplayer)"/>
+        </vertical>
+      </settings-container>
+    </settings-submenu>
+
+    <settings-submenu text='Push-to-talk'>
+      <settings-container>
+        <vertical child-control-height='false'>
+          <clickable-text text='Back' click-event='back' />
+          <bool-setting text="Enable push-to-talk" value="pttEnabled" apply-on-change="true"
+                 hover-hint="Toggle microphone mute with a controller button" />
+          <dropdown-list-setting options="ptt-options" text="Button" value="ptt-value" apply-on-change="true"
+                        hover-hint="Select the button or button combo that should be used to unmute the mic."/>
+          <bool-setting text="Invert (push-to-mute)" value="pttInverted" apply-on-change="true"
+                 hover-hint="Mute instead of unmute on button press." />
+        </vertical>
+      </settings-container>
+    </settings-submenu>
+
+    <settings-submenu text='Floating mute button'>
       <settings-container>
         <vertical child-control-height='false'>
           <clickable-text text='Back' click-event='back' />
@@ -28,10 +56,10 @@
           <horizontal>
             <text text='The position will be saved.'/>
           </horizontal>
-        
           <button text='Show movement handle' on-click='togglescreenhandle' id='togglescreenhandlebtn'></button>
         </vertical>
       </settings-container>
     </settings-submenu>
+    
   </vertical>
 </settings-container>

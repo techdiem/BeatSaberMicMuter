@@ -10,6 +10,8 @@ namespace MicMuter.Configuration
     {
         public static PluginConfig Instance { get; set; }
         public virtual string MicDeviceID { get; set; } = "";
+
+        //Automatic mute
         public virtual bool Enabled { get; set; } = true;
         public virtual bool UnmuteOnPause { get; set; } = true;
         public virtual bool MultiEnabled { get; set; } = true;
@@ -18,6 +20,11 @@ namespace MicMuter.Configuration
         public virtual bool ScreenEnabled { get; set; } = false;
         public virtual Vector3 ScreenPos { get; set; } = new Vector3(-1f, 0.6f, 2f);
         public virtual Quaternion ScreenRot { get; set; } = Quaternion.Euler(25f, 330f, 6.5f);
+
+        //Push-to-talk
+        public virtual bool PTTEnabled { get; set; } = false;
+        public virtual string PTTMode { get; set; } = "L+R Trigger";
+        public virtual bool PTTInverted { get; set; } = false;
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).

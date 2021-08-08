@@ -48,6 +48,29 @@ namespace MicMuter.UI {
         [UIValue("micdevice-options")]
         public List<object> micSelectOptions = MicDeviceUtils.micSelectOptions;
 
+
+        [UIValue("pttEnabled")]
+        protected bool PttEnabled {
+            get => _settings.PTTEnabled;
+            set => _settings.PTTEnabled = value;
+        }
+
+        [UIValue("ptt-options")]
+        protected List<object> pttComboOptions = new object[] { "L Trigger", "R Trigger", "L+R Trigger", "L Grip", "R Grip", "L+R Grip" }.ToList();
+
+        [UIValue("ptt-value")]
+        protected string pttCombo {
+            get => _settings.PTTMode;
+            set => _settings.PTTMode = value;
+        }
+
+        [UIValue("pttInverted")]
+        protected bool PttInverted {
+            get => _settings.PTTInverted;
+            set => _settings.PTTInverted = value;
+        }
+
+
         [UIValue("screenEnabled")]
         protected bool ScreenEnabled {
             get => _settings.ScreenEnabled;

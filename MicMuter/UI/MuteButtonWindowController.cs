@@ -99,6 +99,12 @@ namespace MicMuter.UI {
             }
         }
 
+        public void UpdateMutebtn() {
+            if (MuteButtonScreen != null) {
+                MuteButtonWindow.UpdateMutebtnText();
+            }
+        }
+
         private void OnSongExited() {
             SetVisibility(true);
         }

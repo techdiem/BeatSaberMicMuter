@@ -8,6 +8,7 @@ using IPALogger = IPA.Logging.Logger;
 using MicMuter.Configuration;
 using MicMuter.UI;
 using BeatSaberMarkupLanguage.Settings;
+using UnityEngine;
 
 namespace MicMuter {
     [Plugin(RuntimeOptions.SingleStartInit)]
@@ -31,8 +32,9 @@ namespace MicMuter {
             //Harmony
             Harmony = new HarmonyLib.Harmony(HarmonyId);
             Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            
-            //new GameObject("MicMuterController").AddComponent<MicMuterController>();
+
+            ControllersHelper.Init();
+            new GameObject("MicMuterController").AddComponent<MicMuterController>();
             
             //Gameplay events to mute/unmute
             EventMute.Setup();
