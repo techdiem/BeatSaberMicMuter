@@ -11,10 +11,10 @@ namespace MicMuter.UI {
 
         private PluginConfig _settings = PluginConfig.Instance;
 
-        [UIValue("enabled")]
-        protected bool Enabled {
-            get => _settings.Enabled;
-            set => _settings.Enabled = value;
+        [UIValue("single-enabled")]
+        protected bool SingleEnabled {
+            get => _settings.SingleEnabled;
+            set => _settings.SingleEnabled = value;
         }
 
         [UIValue("pause-unmute")]

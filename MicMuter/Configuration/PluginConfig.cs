@@ -12,7 +12,7 @@ namespace MicMuter.Configuration
         public virtual string MicDeviceID { get; set; } = "";
 
         //Automatic mute
-        public virtual bool Enabled { get; set; } = true;
+        public virtual bool SingleEnabled { get; set; } = true;
         public virtual bool UnmuteOnPause { get; set; } = true;
         public virtual bool MultiEnabled { get; set; } = true;
 

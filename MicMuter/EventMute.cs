@@ -57,26 +57,26 @@ namespace MicMuter {
 
         private static void OnSongStarted() {
             if ((PluginConfig.Instance.MultiEnabled && mpconnected) ||
-                (PluginConfig.Instance.Enabled && !mpconnected)) {
+                (PluginConfig.Instance.SingleEnabled && !mpconnected)) {
                 MicDeviceUtils.SetMicMute(true);
             }
         }
 
         private static void OnSongExited() {
             if ((PluginConfig.Instance.MultiEnabled && mpconnected) ||
-                (PluginConfig.Instance.Enabled && !mpconnected)) {
+                (PluginConfig.Instance.SingleEnabled && !mpconnected)) {
                 MicDeviceUtils.SetMicMute(false);
             }
         }
 
         private static void OnGamePause() {
-            if (PluginConfig.Instance.UnmuteOnPause && PluginConfig.Instance.Enabled) {
+            if (PluginConfig.Instance.UnmuteOnPause && PluginConfig.Instance.SingleEnabled) {
                 MicDeviceUtils.SetMicMute(false);
             }
         }
 
         private static void OnGameResume() {
-            if (PluginConfig.Instance.UnmuteOnPause && PluginConfig.Instance.Enabled) {
+            if (PluginConfig.Instance.UnmuteOnPause && PluginConfig.Instance.SingleEnabled) {
                 MicDeviceUtils.SetMicMute(true);
             }
         }

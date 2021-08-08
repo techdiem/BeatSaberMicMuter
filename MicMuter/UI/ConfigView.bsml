@@ -17,7 +17,7 @@
           <horizontal>
             <text text='Enable automatic mic mute in singleplayer, multiplayer or both.'/>
           </horizontal>
-          <bool-setting text="Enabled in singleplayer/party/campaign" value="enabled" apply-on-change="true"
+          <bool-setting text="Enabled in singleplayer/party/campaign" value="single-enabled" apply-on-change="true"
                         hover-hint="Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)" />
           <bool-setting text="Enabled in multiplayer" value="multi-enabled" apply-on-change="true"
                         hover-hint="Enable automatic muting in multiplayer (online)"/>
