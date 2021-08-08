@@ -4,10 +4,7 @@
     <horizontal>
       <text text='Mute your mic automatically, via PTT or with a floating button.'/>
     </horizontal>
-    <horizontal>
-      <text text='Select your VR microphone here:'/>
-    </horizontal>
-    <dropdown-list-setting options="micdevice-options" text="Microphone" value="micdevice-value" apply-on-change="true"
+    <dropdown-list-setting options="micdevice-options" text="Microphone" value="micdevice-value" apply-on-change="true" font-color='yellow'
                   hover-hint="Select your microphone here. Make sure that every name only exists once."/>
     
     <settings-submenu text='Automatic mute'>
@@ -15,7 +12,7 @@
         <vertical child-control-height='false'>
           <clickable-text text='Back' click-event='back' />
           <horizontal>
-            <text text='Enable automatic mic mute in singleplayer, multiplayer or both.'/>
+            <text text='Enable automatic mic mute in singleplayer, multiplayer or both.' bold='true'/>
           </horizontal>
           <bool-setting text="Enabled in singleplayer/party/campaign" value="single-enabled" apply-on-change="true"
                         hover-hint="Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)" />
@@ -30,7 +27,19 @@
     <settings-submenu text='Push-to-talk'>
       <settings-container>
         <vertical child-control-height='false'>
+          <horizontal>
+            <text text='Push-to-talk or push-to-mute button configuration' bold='true'/>
+          </horizontal>
           <clickable-text text='Back' click-event='back' />
+          <horizontal>
+            <text text='Deactivate the automatic mute function to avoid unwanted unmuting,' italics='true' font-color='orange'/>
+          </horizontal>
+          <horizontal>
+            <text text='as the mic will unmute after the level is finished until you press the' italics='true' font-color='orange'/>
+          </horizontal>
+          <horizontal>
+            <text text='ptt button again!' italics='true' font-color='orange'/>
+          </horizontal>
           <bool-setting text="Enable push-to-talk" value="pttEnabled" apply-on-change="true"
                  hover-hint="Toggle microphone mute with a controller button" />
           <dropdown-list-setting options="ptt-options" text="Button" value="ptt-value" apply-on-change="true"
@@ -46,7 +55,7 @@
         <vertical child-control-height='false'>
           <clickable-text text='Back' click-event='back' />
           <bool-setting text="Enable floating mute button" value="screenEnabled" apply-on-change="true"
-                 hover-hint="Show a little mute button everywhere instead of ingame" />
+                 hover-hint="Show a small mute button everywhere except ingame" />
           <horizontal>
             <text text='Click the button to show a white handle at the left side of the mute button.'/>
           </horizontal>
