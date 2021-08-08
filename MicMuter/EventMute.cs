@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using MicMuter.Configuration;
 using MicMuter.UI;
 using BS_Utils.Utilities;
@@ -54,11 +53,6 @@ namespace MicMuter {
                 SessionManager.connectedEvent -= OnMultiplayerConnected;
                 SessionManager.disconnectedEvent -= OnMultiplayerDisconnected;
             }
-        }
-
-        private static T FindFirstOrDefaultOptional<T>() where T : UnityEngine.Object {
-            T obj = Resources.FindObjectsOfTypeAll<T>().FirstOrDefault();
-            return obj;
         }
 
         private static void OnSongStarted() {
