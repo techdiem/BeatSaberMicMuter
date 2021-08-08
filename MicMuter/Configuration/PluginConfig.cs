@@ -39,6 +39,10 @@ namespace MicMuter.Configuration
         {
             //Update audio device
             MicDeviceUtils.SelectConfiguredMic(MicDeviceID);
+            //Mute depending on push-to-talk or push-to-mute
+            if (PTTEnabled) {
+                MicDeviceUtils.SetMicMute(!PTTInverted);
+            }
 
             //Toggle mute button screen
             if (Plugin.startupReady) {

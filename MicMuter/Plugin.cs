@@ -59,6 +59,7 @@ namespace MicMuter {
         public void OnApplicationQuit() {
             EventMute.Cleanup();
             MuteButtonWindowController.Instance.Cleanup();
+            MicDeviceUtils.SetMicMute(false);
         }
     }
 }
