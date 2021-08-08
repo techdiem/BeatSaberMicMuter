@@ -95,7 +95,7 @@ namespace MicMuter {
         private static void OnLeftTriggerChange(bool state) {
             if (PluginConfig.Instance.PTTMode == "L Trigger" || (PluginConfig.Instance.PTTMode == "L+R Trigger" && ControllersHelper.RightTriggerState == state)) {
                 //XOR
-                state ^= PluginConfig.Instance.PTTInverted;
+                state ^= !PluginConfig.Instance.PTTInverted;
                 MicDeviceUtils.SetMicMute(state);
                 MuteButtonWindowController.Instance.UpdateMutebtn();
             }
@@ -103,14 +103,15 @@ namespace MicMuter {
 
         private static void OnRightTriggerChange(bool state) {
             if (PluginConfig.Instance.PTTMode == "R Trigger" || (PluginConfig.Instance.PTTMode == "L+R Trigger" && ControllersHelper.LeftTriggerState == state)) {
-                state ^= PluginConfig.Instance.PTTInverted;
+                state ^= !PluginConfig.Instance.PTTInverted;
                 MicDeviceUtils.SetMicMute(state);
                 MuteButtonWindowController.Instance.UpdateMutebtn();
             }
         }
+
         private static void OnLeftGripChange(bool state) {
             if (PluginConfig.Instance.PTTMode == "L Grip" || (PluginConfig.Instance.PTTMode == "L+R Grip" && ControllersHelper.RightGripState == state)) {
-                state ^= PluginConfig.Instance.PTTInverted;
+                state ^= !PluginConfig.Instance.PTTInverted;
                 MicDeviceUtils.SetMicMute(state);
                 MuteButtonWindowController.Instance.UpdateMutebtn();
             }
@@ -118,7 +119,7 @@ namespace MicMuter {
 
         private static void OnRightGripChange(bool state) {
             if (PluginConfig.Instance.PTTMode == "R Grip" || (PluginConfig.Instance.PTTMode == "L+R Grip" && ControllersHelper.LeftGripState == state)) {
-                state ^= PluginConfig.Instance.PTTInverted;
+                state ^= !PluginConfig.Instance.PTTInverted;
                 MicDeviceUtils.SetMicMute(state);
                 MuteButtonWindowController.Instance.UpdateMutebtn();
             }
