@@ -37,21 +37,32 @@ namespace MicMuter.Configuration
         /// </summary>
         public virtual void Changed()
         {
-            //Update audio device
-            MicDeviceUtils.SelectConfiguredMic(MicDeviceID);
-            //Mute depending on push-to-talk or push-to-mute
-            if (PTTEnabled) {
-                MicDeviceUtils.SetMicMute(!PTTInverted);
-            }
+            if (MicDeviceID != "")
+            {
+                //Update audio device
+                MicDeviceUtils.SelectConfiguredMic(MicDeviceID);
+                //Mute depending on push-to-talk or push-to-mute
+                if (PTTEnabled)
+                {
+                    MicDeviceUtils.SetMicMute(!PTTInverted);
+                }
 
-            //Toggle mute button screen
-            if (Plugin.startupReady) {
-                if (ScreenEnabled) {
-                    MuteButtonWindowController.Instance.ShowMuteWindow();
+                //Toggle mute button screen
+                if (Plugin.startupReady)
+                {
+                    if (ScreenEnabled)
+                    {
+                        MuteButtonWindowController.Instance.ShowMuteWindow();
+                    }
+                    else if (MuteButtonWindowController.Instance.MuteButtonScreen != null)
+                    {
+                        MuteButtonWindowController.Instance.Cleanup();
+                    }
                 }
-                else if (MuteButtonWindowController.Instance.MuteButtonScreen != null) {
-                    MuteButtonWindowController.Instance.Cleanup();
-                }
+            }
+            else
+            {
+                Plugin.Log.Warn("Selected Mic ID is empty, is this your first start or did the device ID change?");
             }
         }
 
