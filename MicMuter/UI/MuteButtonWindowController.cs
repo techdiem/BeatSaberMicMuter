@@ -38,14 +38,14 @@ namespace MicMuter.UI {
             BSEvents.songUnpaused -= OnGameResume;
 
             if (MuteButtonScreen != null) {
-                GameObject.Destroy(MuteButtonScreen.gameObject);
+                UnityEngine.Object.Destroy(MuteButtonScreen.gameObject);
                 MuteButtonScreen = null;
             }
         }
 
         private void BSEvents_earlyMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj) {
             if (MuteButtonScreen != null) {
-                GameObject.Destroy(MuteButtonScreen.gameObject);
+                UnityEngine.Object.Destroy(MuteButtonScreen.gameObject);
                 MuteButtonScreen = null;
             }
         }
@@ -71,7 +71,7 @@ namespace MicMuter.UI {
             screen.HandleReleased -= OnRelease;
             screen.HandleReleased += OnRelease;
 
-            GameObject.DontDestroyOnLoad(screen.gameObject);
+            UnityEngine.Object.DontDestroyOnLoad(screen.gameObject);
             return screen;
         }
 

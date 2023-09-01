@@ -26,10 +26,10 @@ namespace MicMuter {
             //   and destroy any that are created while one already exists.
             if (Instance != null) {
                 Plugin.Log?.Warn($"Instance of {GetType().Name} already exists, destroying.");
-                GameObject.DestroyImmediate(this);
+                DestroyImmediate(this);
                 return;
             }
-            GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
+            DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
             //Plugin.Log?.Debug($"{name}: Awake()");
         }

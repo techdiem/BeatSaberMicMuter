@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using BeatSaberMarkupLanguage;
+using BeatSaberMarkupLanguage.Util;
 using BeatSaberMarkupLanguage.Attributes;
 using MicMuter.Configuration;
 using TMPro;
