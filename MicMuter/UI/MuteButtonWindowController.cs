@@ -10,6 +10,7 @@ using VRUIControls;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using BS_Utils;
 using BS_Utils.Utilities;
 using MicMuter.Configuration;
 
