@@ -11,7 +11,7 @@
       <RepackPDB>true</RepackPDB>
     </PropertyGroup>
     <ItemGroup>
-      <InputAssemblies Include="CSCore.dll" />
+      
     </ItemGroup>
     <ItemGroup>
       <!-- Must be a fully qualified name -->

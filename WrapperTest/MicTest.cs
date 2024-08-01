@@ -4,11 +4,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using MicMuter.Configuration;
 
-namespace MicMuter {
-
-    #region Microphone device details struct
+namespace WrapperTest
+{
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DevDetails
     {
@@ -25,10 +23,9 @@ namespace MicMuter {
             get { return Marshal.PtrToStringUni(id); }
         }
     }
-    #endregion
 
-    class MicDeviceUtils {
-        #region Native c++ dll import
+    public class MicTest
+    {
         [DllImport("CoreAudioWrapper.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern bool GetMute([MarshalAsAttribute(UnmanagedType.LPWStr)] string deviceID);
 
@@ -41,61 +38,25 @@ namespace MicMuter {
 
         [DllImport("CoreAudioWrapper.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern IntPtr GetMicrophoneList(out int devcount);
-        #endregion
 
-
-        //GUI variables
-        public static Dictionary<string, string> micDeviceList = new Dictionary<string, string>();
-        public static List<object> micSelectOptions = new List<object>();
-        private static string micDeviceID;
-
-        public static void Setup() {
-
-            //Load microphone device
-            UpdateMicrophoneList();
-            SelectConfiguredMic(PluginConfig.Instance.MicDeviceID);
+        public static bool GetMuteNative()
+        {
+            string deviceID = GetDefaultDeviceID();
+            Console.WriteLine(deviceID);
+            bool muted = GetMute(deviceID);
+            Console.WriteLine(muted.ToString());
+            return muted;
         }
 
-        public static void UpdateMicrophoneList() {
-            DevDetails[] microphones = GetDeviceListNative();
-
-            micSelectOptions.Clear();
-            foreach (var mic in microphones) {
-                micSelectOptions.Add(mic.Name);
-                micDeviceList.Add(mic.Name, mic.ID);
-            }
+        public static void SetMuteNative(bool muted)
+        {
+            string deviceID = GetDefaultDeviceID();
+            Console.WriteLine(deviceID);
+            SetMute(muted, deviceID);
+            Console.Write(muted.ToString());
         }
 
-        public static void SelectConfiguredMic(string devID) {
-            //Load microphone id from config
-            if (devID == "")
-            {
-                string defaultID = GetDefaultDeviceID();
-                PluginConfig.Instance.MicDeviceID = defaultID;
-                micDeviceID = defaultID;
-                Plugin.Log.Info($"No device configured, using default mic with id: {defaultID}");
-            }
-            else if (micDeviceID != devID)
-            {
-                micDeviceID = devID;
-                Plugin.Log.Info($"Switching device to {devID}");
-            }
-        }
-
-        public static void SetMicMute(bool muted) {
-            if (GetMute(micDeviceID) != muted) {
-                SetMute(muted, micDeviceID);
-                Plugin.Log.Info($"Microphone muted: {muted}");
-            }
-        }
-
-        public static bool GetMuteStatus() {
-            return GetMute(micDeviceID);
-        }
-
-
-        #region Native call to c++ lib
-        public static DevDetails[] GetDeviceListNative()
+        public static DevDetails[] GetManagedDevDetailsArray()
         {
             int count;
             IntPtr ptr = GetMicrophoneList(out count);
@@ -117,6 +78,14 @@ namespace MicMuter {
 
             return array;
         }
-        #endregion
+
+        public static void GetDeviceList()
+        {
+            DevDetails[] devDetails = GetManagedDevDetailsArray();
+            foreach (DevDetails dev in devDetails) {
+                Console.WriteLine(dev.ID);
+                Console.WriteLine(dev.Name);
+            }
+        }
     }
 }
