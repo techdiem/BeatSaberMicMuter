@@ -1,4 +1,3 @@
-// #include "stdafx.h"
 #include <windows.h>
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
@@ -10,6 +9,34 @@ struct DevDetails {
     LPWSTR name;
     LPWSTR id;
 };
+
+IMMDevice* GetDeviceFromID(LPCWSTR micDeviceID) {
+    HRESULT hr;
+    CoInitialize(NULL);
+    IMMDeviceEnumerator* deviceEnumerator = NULL;
+    hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (LPVOID*)&deviceEnumerator);
+    IMMDevice* activeDevice = NULL;
+
+    hr = deviceEnumerator->GetDevice(micDeviceID, &activeDevice);
+    deviceEnumerator->Release();
+    deviceEnumerator = NULL;
+    return activeDevice;
+    CoUninitialize();
+}
+
+IAudioEndpointVolume* GetAudioEndpointFromDeviceID(LPCWSTR micDeviceID) {
+    HRESULT hr;
+    CoInitialize(NULL);
+
+    IMMDevice* activeDevice = GetDeviceFromID(micDeviceID);
+    IAudioEndpointVolume* endpointVolume = NULL;
+    hr = activeDevice->Activate(__uuidof(IAudioEndpointVolume), CLSCTX_INPROC_SERVER, NULL, (LPVOID*)&endpointVolume);
+    activeDevice->Release();
+    activeDevice = NULL;
+    return endpointVolume;
+    CoUninitialize();
+}
+
 
 extern "C"
 {
@@ -69,10 +96,11 @@ extern "C"
             }
         }
 
-        // Ressourcen freigeben
+        // free ressources
         pCollection->Release();
         deviceEnumerator->Release();
 
+        //devcount pointer for array creation in c# program
         *devcount = count;
         return array;
         CoUninitialize();
@@ -86,7 +114,7 @@ extern "C"
         IMMDeviceEnumerator* deviceEnumerator = NULL;
         hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (LPVOID*)&deviceEnumerator);
 
-        // Get collection of all active capture devices
+        // Get default capture device
         IMMDevice* pDevice = NULL;
         hr = deviceEnumerator->GetDefaultAudioEndpoint(eCapture, eMultimedia, &pDevice);
         deviceEnumerator->Release();
@@ -102,53 +130,25 @@ extern "C"
     DLLExport bool GetMute(LPCWSTR micDeviceID) {
         HRESULT hr;
         CoInitialize(NULL);
-        IMMDeviceEnumerator* deviceEnumerator = NULL;
-        hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (LPVOID*)&deviceEnumerator);
-        IMMDevice* activeDevice = NULL;
-
-        hr = deviceEnumerator->GetDevice(micDeviceID, &activeDevice);
-        deviceEnumerator->Release();
-        deviceEnumerator = NULL;
-        if (activeDevice == NULL) {
-            return NULL;
-        }
-
-        IAudioEndpointVolume* endpointVolume = NULL;
-        hr = activeDevice->Activate(__uuidof(IAudioEndpointVolume), CLSCTX_INPROC_SERVER, NULL, (LPVOID*)&endpointVolume);
-        activeDevice->Release();
-        activeDevice = NULL;
-
-        BOOL muteState = NULL;
+        
+        IAudioEndpointVolume* endpointVolume = GetAudioEndpointFromDeviceID(micDeviceID);
+        BOOL muteState = false;
         hr = endpointVolume->GetMute(&muteState);
-        if (SUCCEEDED(hr)) {
-            return muteState;
-        }
-        else {
-            return false;
-        }
+        endpointVolume->Release();
+        endpointVolume = nullptr;
+        return muteState;
+
         CoUninitialize();
     }
 
     DLLExport void SetMute(BOOL mute, LPCWSTR micDeviceID) {
         HRESULT hr;
         CoInitialize(NULL);
-        IMMDeviceEnumerator* deviceEnumerator = NULL;
-        hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (LPVOID*)&deviceEnumerator);
-        IMMDevice* activeDevice = NULL;
 
-        hr = deviceEnumerator->GetDevice(micDeviceID, &activeDevice);
-        deviceEnumerator->Release();
-        deviceEnumerator = NULL;
-        if (activeDevice == NULL) {
-            return;
-        }
-
-        IAudioEndpointVolume* endpointVolume = NULL;
-        hr = activeDevice->Activate(__uuidof(IAudioEndpointVolume), CLSCTX_INPROC_SERVER, NULL, (LPVOID*)&endpointVolume);
-        activeDevice->Release();
-        activeDevice = NULL;
-
+        IAudioEndpointVolume* endpointVolume = GetAudioEndpointFromDeviceID(micDeviceID);
         hr = endpointVolume->SetMute(mute, NULL);
+        endpointVolume->Release();
+        endpointVolume = nullptr;
 
         CoUninitialize();
     }
