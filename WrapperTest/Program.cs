@@ -3,7 +3,7 @@ using WrapperTest;
 
 Console.WriteLine("Hello, World!");
 bool muted = MicTest.GetMuteNative();
-//MicTest.GetDeviceList();
+MicTest.GetDeviceList();
 Console.WriteLine();
 MicTest.SetMuteNative(!muted);
 Console.ReadKey();

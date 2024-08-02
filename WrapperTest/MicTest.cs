@@ -62,18 +62,10 @@ namespace WrapperTest
             IntPtr ptr = GetMicrophoneList(out count);
             int size = Marshal.SizeOf(typeof(DevDetails));
             DevDetails[] array = new DevDetails[count];
-            try
+            for (int i = 0; i < count; i++)
             {
-                for (int i = 0; i < count; i++)
-                {
-                    IntPtr current = new IntPtr(ptr.ToInt64() + i * size);
-                    array[i] = (DevDetails)Marshal.PtrToStructure(current, typeof(DevDetails));
-                }
-            }
-            finally
-            {
-                // Freigeben des unmanaged Speichers
-                Marshal.FreeHGlobal(ptr);
+                IntPtr current = new IntPtr(ptr.ToInt64() + i * size);
+                array[i] = (DevDetails)Marshal.PtrToStructure(current, typeof(DevDetails));
             }
 
             return array;

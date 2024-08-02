@@ -109,10 +109,9 @@ namespace MicMuter {
                     array[i] = (DevDetails)Marshal.PtrToStructure(current, typeof(DevDetails));
                 }
             }
-            finally
+            catch (Exception e)
             {
-                // Freigeben des unmanaged Speichers
-                Marshal.FreeHGlobal(ptr);
+                Plugin.Log.Error($"Error processing native audioapi calls: {e}");
             }
 
             return array;
