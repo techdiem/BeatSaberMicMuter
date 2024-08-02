@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreAudioWrapper\CoreAudioWrapper.vcxproj">
-      <Private>True</Private>
-    </ProjectReference>
+	  <ProjectReference Include="..\CoreAudioWrapper\CoreAudioWrapper.vcxproj">
+		  <Project>{a5a99719-1621-4a94-9e7c-b7be26aac809}</Project>
+		  <Name>CoreAudioWrapper</Name>
+		  <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		  <OutputItemType>Content</OutputItemType>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </ProjectReference>
   </ItemGroup>
 
 </Project>
