@@ -60,6 +60,7 @@ namespace MicMuter {
             DevDetails[] microphones = GetDeviceListNative();
 
             micSelectOptions.Clear();
+            micDeviceList.Clear();
             foreach (var mic in microphones) {
                 micSelectOptions.Add(mic.Name);
                 micDeviceList.Add(mic.Name, mic.ID);
@@ -71,9 +72,16 @@ namespace MicMuter {
             if (devID == "")
             {
                 string defaultID = GetDefaultDeviceID();
-                PluginConfig.Instance.MicDeviceID = defaultID;
-                micDeviceID = defaultID;
-                Plugin.Log.Info($"No device configured, using default mic with id: {defaultID}");
+                if (defaultID != null) 
+                {
+                    PluginConfig.Instance.MicDeviceID = defaultID;
+                    micDeviceID = defaultID;
+                    Plugin.Log.Info($"No device configured, using default mic with id: {defaultID}");
+                }
+                else
+                {
+                    Plugin.Log.Error("No device configured, error getting default capture device, are microphones installed on this system?");
+                }
             }
             else if (micDeviceID != devID)
             {
@@ -83,14 +91,31 @@ namespace MicMuter {
         }
 
         public static void SetMicMute(bool muted) {
-            if (GetMute(micDeviceID) != muted) {
-                SetMute(muted, micDeviceID);
-                Plugin.Log.Info($"Microphone muted: {muted}");
+            if (GetMuteStatus() != muted)
+            {
+                bool success = SetMute(muted, micDeviceID);
+                if (success)
+                {
+                    Plugin.Log.Info($"Microphone muted: {muted}");
+                }
+                else
+                {
+                    Plugin.Log.Error("Error setting mute status of device");
+                }
             }
         }
 
         public static bool GetMuteStatus() {
-            return GetMute(micDeviceID);
+            bool? muteStatus = GetMute(micDeviceID);
+            if (muteStatus != null)
+            {
+                return (bool)muteStatus;
+            }
+            else
+            {
+                Plugin.Log.Error("Error getting mute status of device");
+                return false;
+            }
         }
 
 
@@ -99,22 +124,29 @@ namespace MicMuter {
         {
             int count;
             IntPtr ptr = GetMicrophoneList(out count);
-            int size = Marshal.SizeOf(typeof(DevDetails));
-            DevDetails[] array = new DevDetails[count];
-            try
+            if (count > 0)
             {
-                for (int i = 0; i < count; i++)
+                int size = Marshal.SizeOf(typeof(DevDetails));
+                DevDetails[] array = new DevDetails[count];
+                try
                 {
-                    IntPtr current = new IntPtr(ptr.ToInt64() + i * size);
-                    array[i] = (DevDetails)Marshal.PtrToStructure(current, typeof(DevDetails));
+                    for (int i = 0; i < count; i++)
+                    {
+                        IntPtr current = new IntPtr(ptr.ToInt64() + i * size);
+                        array[i] = (DevDetails)Marshal.PtrToStructure(current, typeof(DevDetails));
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Plugin.Log.Error($"Error processing native audioapi calls: {e}");
-            }
+                catch (Exception e)
+                {
+                    Plugin.Log.Error($"Error processing native audioapi calls: {e}");
+                }
 
-            return array;
+                return array;
+            }
+            else
+            {
+                return new DevDetails[0];
+            }
         }
         #endregion
     }

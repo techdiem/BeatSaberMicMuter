@@ -29,6 +29,9 @@ IAudioEndpointVolume* GetAudioEndpointFromDeviceID(LPCWSTR micDeviceID) {
     CoInitialize(NULL);
 
     IMMDevice* activeDevice = GetDeviceFromID(micDeviceID);
+    if (activeDevice == NULL) {
+        return NULL;
+    }
     IAudioEndpointVolume* endpointVolume = NULL;
     hr = activeDevice->Activate(__uuidof(IAudioEndpointVolume), CLSCTX_INPROC_SERVER, NULL, (LPVOID*)&endpointVolume);
     activeDevice->Release();
@@ -120,10 +123,15 @@ extern "C"
         deviceEnumerator->Release();
 
         // DeviceID abfragen
-        LPWSTR pwszID = nullptr;
-        hr = pDevice->GetId(&pwszID);
-        pDevice->Release();
-        return pwszID;
+        if (pDevice == NULL) {
+            return NULL;
+        }
+        else {
+            LPWSTR pwszID = nullptr;
+            hr = pDevice->GetId(&pwszID);
+            pDevice->Release();
+            return pwszID;
+        }
         CoUninitialize();
     }
 
@@ -132,6 +140,9 @@ extern "C"
         CoInitialize(NULL);
         
         IAudioEndpointVolume* endpointVolume = GetAudioEndpointFromDeviceID(micDeviceID);
+        if (endpointVolume == NULL) {
+            return NULL;
+        }
         BOOL muteState = false;
         hr = endpointVolume->GetMute(&muteState);
         endpointVolume->Release();
@@ -141,14 +152,19 @@ extern "C"
         CoUninitialize();
     }
 
-    DLLExport void SetMute(BOOL mute, LPCWSTR micDeviceID) {
+    DLLExport bool SetMute(BOOL mute, LPCWSTR micDeviceID) {
         HRESULT hr;
         CoInitialize(NULL);
 
         IAudioEndpointVolume* endpointVolume = GetAudioEndpointFromDeviceID(micDeviceID);
+        if (endpointVolume == NULL) {
+            //Return value to specify if action succeeded
+            return false;
+        }
         hr = endpointVolume->SetMute(mute, NULL);
         endpointVolume->Release();
         endpointVolume = nullptr;
+        return true;
 
         CoUninitialize();
     }
