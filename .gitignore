@@ -1,4 +1,5 @@
 ﻿*.zip
+cscore.dll
 
 #Visual Studio
 .vs/

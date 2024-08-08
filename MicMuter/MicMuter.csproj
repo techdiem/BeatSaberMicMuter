@@ -155,8 +155,6 @@
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
-    <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
     <None Include="ILRepack.targets" />
     <None Include="MicMuter.csproj.user" Condition="Exists('MicMuter.csproj.user')" />
     <EmbeddedResource Include="UI\ConfigView.bsml" />
