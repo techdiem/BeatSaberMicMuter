@@ -4,12 +4,12 @@ A Beat Saber mod for muting your micrphone in some ways:
 * Push-to-talk
 * Floating mute button that is always visible except during play.
 
-Compatible with **Beat Saber 1.34.2**
+Compatible with **Beat Saber 1.37.1**
 
 ## Installation
 * Required dependencies (can be installed using Mod Assistant)
-    * BeatSaberMarkupLanguage v1.8.1+
-    * BS_Utils v1.13.0+
+    * BeatSaberMarkupLanguage v1.11.4+
+    * BS_Utils v1.14.0+
 * Mod installation
     * Download the latest DLL from the [Releases](https://github.com/techdiem/BeatSaberMicMuter/releases/latest) page and copy it into your Plugins folder.
     * You should see a MicMuter entry in the Mod Settings menu when installed.
