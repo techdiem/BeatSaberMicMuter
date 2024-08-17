@@ -28,9 +28,20 @@ namespace MicMuter {
         public static void UpdateMicrophoneList() {
             MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
             micSelectOptions.Clear();
-            foreach (var mic in enumerator.EnumAudioEndpoints(DataFlow.Capture, DeviceState.Active)) {
-                micSelectOptions.Add(mic.FriendlyName);
-                micDeviceList.Add(mic.FriendlyName, mic.DeviceID);
+            micDeviceList.Clear();
+            var devices = enumerator.EnumAudioEndpoints(DataFlow.Capture, DeviceState.Active);
+            if (devices.Count > 0)
+            {
+                foreach (var mic in devices)
+                {
+                    micSelectOptions.Add(mic.FriendlyName);
+                    micDeviceList.Add(mic.FriendlyName, mic.DeviceID);
+                }
+            }
+            else
+            {
+                micSelectOptions.Add("No devices");
+                micDeviceList.Add("No devices", "");
             }
         }
 
@@ -47,32 +58,66 @@ namespace MicMuter {
                 PluginConfig.Instance.MicDeviceID = microphone.DeviceID;
                 Plugin.Log.Info($"No device configured, using default: {microphone.FriendlyName}");
             }
-            else if (microphone != null)
-            {
-                if (microphone.DeviceID != micDeviceID)
-                {
-                    microphone = enumerator.GetDevice(micDeviceID);
-                    Plugin.Log.Info($"Switching device to {microphone.FriendlyName}");
-                }
-            }
             else
             {
-                microphone = enumerator.GetDevice(micDeviceID);
-                Plugin.Log.Info($"Using device from config: {microphone.FriendlyName}");
+                bool devicePresent = false;
+                foreach (var device in devices) 
+                {
+                    if (device.DeviceID == micDeviceID) 
+                    { 
+                        devicePresent = true;
+                        break;
+                    }
+                }
+                if (devicePresent)
+                {
+                    microphone = enumerator.GetDevice(micDeviceID);
+                    if (microphone.DeviceID == micDeviceID)
+                    {
+                        Plugin.Log.Info($"Using device from config: {microphone.FriendlyName}");
+                    }
+                    else
+                    {
+                        Plugin.Log.Info($"Switching device to {microphone.FriendlyName}");
+                    }
+                }
+                else
+                {
+                    if (devices.Count > 0)
+                    {
+                        Plugin.Log.Error("Microphone from configuration is not present on system, switching to default device.");
+                        microphone = devices.FirstOrDefault();
+                    }
+                    else
+                    {
+                        Plugin.Log.Error("No microphones present on this system, check your devices.");
+                    }
+                }
             }
         }
 
-        public static void SetMicMute(bool muted) {
-            var endpoint = AudioEndpointVolume.FromDevice(microphone);
-            if (endpoint.GetMute() != muted) {
-                endpoint.SetMute(muted, eventguid);
-                Plugin.Log.Info($"Microphone muted: {muted}");
+        public static void SetMicMute(bool muted)
+        {
+            if (microphone != null) {
+                var endpoint = AudioEndpointVolume.FromDevice(microphone);
+                if (endpoint.GetMute() != muted)
+                {
+                    endpoint.SetMute(muted, eventguid);
+                    Plugin.Log.Info($"Microphone muted: {muted}");
+                }
             }
         }
 
         public static bool GetMuteStatus() {
-            var endpoint = AudioEndpointVolume.FromDevice(microphone);
-            return endpoint.GetMute();
+            if (microphone != null)
+            {
+                var endpoint = AudioEndpointVolume.FromDevice(microphone);
+                return endpoint.GetMute();
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
