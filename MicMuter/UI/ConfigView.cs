@@ -56,21 +56,24 @@ namespace MicMuter.UI {
             set => _settings.PTTEnabled = value;
         }
 
-        [UIValue("ptt-options")]
+        [UIValue("ptt-key-options")]
         protected List<object> pttComboOptions = new object[] { "L Trigger", "R Trigger", "L+R Trigger", "L Grip", "R Grip", "L+R Grip" }.ToList();
 
-        [UIValue("ptt-value")]
+        [UIValue("ptt-key-value")]
         protected string pttCombo {
-            get => _settings.PTTMode;
-            set => _settings.PTTMode = value;
+            get => _settings.PTTKey;
+            set => _settings.PTTKey = value;
         }
 
-        [UIValue("pttInverted")]
-        protected bool PttInverted {
-            get => _settings.PTTInverted;
-            set => _settings.PTTInverted = value;
-        }
+        [UIValue("ptt-action-options")]
+        protected List<object> pttActionOptions = new object[] { "Push-to-talk", "Push-to-mute", "Push-to-toggle" }.ToList();
 
+        [UIValue("ptt-action-value")]
+        protected string pttAction
+        {
+            get => _settings.PTTActionMode;
+            set => _settings.PTTActionMode = value;
+        }
 
         [UIValue("screenEnabled")]
         protected bool ScreenEnabled {

@@ -92,36 +92,69 @@ namespace MicMuter {
             mpconnected = false;
         }
 
+        private static bool? ChooseMuteStateFromButton(bool pressed)
+        {
+            if (PluginConfig.Instance.PTTActionMode == "Push-to-talk")
+            {
+                //Opposite of the button state -> pressed button = mute false
+                return !pressed;
+            }
+            else if (PluginConfig.Instance.PTTActionMode == "Push-to-mute")
+            {
+                //Same state as button -> pressed button = mute true
+                return pressed;
+            }
+            else if (pressed)
+            {
+                //Push-to-toggle, opposite of the current status
+                //Only work on button press=true, because releasing the button is irrelevant here
+                //Return the opposite of the current status
+                return !MicDeviceUtils.GetMuteStatus();
+            }
+            return null;
+        }
+
         private static void OnLeftTriggerChange(bool state) {
-            if (PluginConfig.Instance.PTTMode == "L Trigger" || (PluginConfig.Instance.PTTMode == "L+R Trigger" && ControllersHelper.RightTriggerState == state)) {
-                //XOR
-                state ^= !PluginConfig.Instance.PTTInverted;
-                MicDeviceUtils.SetMicMute(state);
-                MuteButtonWindowController.Instance.UpdateMutebtn();
+            if (PluginConfig.Instance.PTTKey == "L Trigger" || (PluginConfig.Instance.PTTKey == "L+R Trigger" && ControllersHelper.RightTriggerState == state)) {
+                bool? newState = ChooseMuteStateFromButton(state);
+                if (newState != null)
+                {
+                    MicDeviceUtils.SetMicMute(newState.GetValueOrDefault());
+                    MuteButtonWindowController.Instance.UpdateMutebtn();
+                }
             }
         }
 
         private static void OnRightTriggerChange(bool state) {
-            if (PluginConfig.Instance.PTTMode == "R Trigger" || (PluginConfig.Instance.PTTMode == "L+R Trigger" && ControllersHelper.LeftTriggerState == state)) {
-                state ^= !PluginConfig.Instance.PTTInverted;
-                MicDeviceUtils.SetMicMute(state);
-                MuteButtonWindowController.Instance.UpdateMutebtn();
+            if (PluginConfig.Instance.PTTKey == "R Trigger" || (PluginConfig.Instance.PTTKey == "L+R Trigger" && ControllersHelper.LeftTriggerState == state)) {
+                bool? newState = ChooseMuteStateFromButton(state);
+                if (newState != null)
+                {
+                    MicDeviceUtils.SetMicMute(newState.GetValueOrDefault());
+                    MuteButtonWindowController.Instance.UpdateMutebtn();
+                }
             }
         }
 
         private static void OnLeftGripChange(bool state) {
-            if (PluginConfig.Instance.PTTMode == "L Grip" || (PluginConfig.Instance.PTTMode == "L+R Grip" && ControllersHelper.RightGripState == state)) {
-                state ^= !PluginConfig.Instance.PTTInverted;
-                MicDeviceUtils.SetMicMute(state);
-                MuteButtonWindowController.Instance.UpdateMutebtn();
+            if (PluginConfig.Instance.PTTKey == "L Grip" || (PluginConfig.Instance.PTTKey == "L+R Grip" && ControllersHelper.RightGripState == state)) {
+                bool? newState = ChooseMuteStateFromButton(state);
+                if (newState != null)
+                {
+                    MicDeviceUtils.SetMicMute(newState.GetValueOrDefault());
+                    MuteButtonWindowController.Instance.UpdateMutebtn();
+                }
             }
         }
 
         private static void OnRightGripChange(bool state) {
-            if (PluginConfig.Instance.PTTMode == "R Grip" || (PluginConfig.Instance.PTTMode == "L+R Grip" && ControllersHelper.LeftGripState == state)) {
-                state ^= !PluginConfig.Instance.PTTInverted;
-                MicDeviceUtils.SetMicMute(state);
-                MuteButtonWindowController.Instance.UpdateMutebtn();
+            if (PluginConfig.Instance.PTTKey == "R Grip" || (PluginConfig.Instance.PTTKey == "L+R Grip" && ControllersHelper.LeftGripState == state)) {
+                bool? newState = ChooseMuteStateFromButton(state);
+                if (newState != null)
+                {
+                    MicDeviceUtils.SetMicMute(newState.GetValueOrDefault());
+                    MuteButtonWindowController.Instance.UpdateMutebtn();
+                }
             }
         }
     }

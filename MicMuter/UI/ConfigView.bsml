@@ -28,7 +28,7 @@
       <settings-container>
         <vertical child-control-height='false'>
           <horizontal>
-            <text text='Push-to-talk or push-to-mute button configuration' bold='true'/>
+            <text text='Push-to-talk, push-to-mute or push-to-toggle button configuration' bold='true'/>
           </horizontal>
           <clickable-text text='Back' click-event='back' />
           <horizontal>
@@ -42,10 +42,10 @@
           </horizontal>
           <bool-setting text="Enable push-to-talk" value="pttEnabled" apply-on-change="true"
                  hover-hint="Toggle microphone mute with a controller button" />
-          <dropdown-list-setting options="ptt-options" text="Button" value="ptt-value" apply-on-change="true"
+          <dropdown-list-setting options="ptt-key-options" text="Button" value="ptt-key-value" apply-on-change="true"
                         hover-hint="Select the button or button combo that should be used to unmute the mic."/>
-          <bool-setting text="Invert (push-to-mute)" value="pttInverted" apply-on-change="true"
-                 hover-hint="Mute instead of unmute on button press." />
+		  <dropdown-list-setting options="ptt-action-options" text="Button" value="ptt-action-value" apply-on-change="true"
+						hover-hint="Select the action mode: Should a pressed button mute, unmute or toggle the state?"/>
         </vertical>
       </settings-container>
     </settings-submenu>

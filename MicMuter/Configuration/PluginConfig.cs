@@ -23,8 +23,8 @@ namespace MicMuter.Configuration
 
         //Push-to-talk
         public virtual bool PTTEnabled { get; set; } = false;
-        public virtual string PTTMode { get; set; } = "L+R Trigger";
-        public virtual bool PTTInverted { get; set; } = false;
+        public virtual string PTTKey { get; set; } = "L+R Trigger";
+        public virtual string PTTActionMode { get; set; } = "Push-to-talk";
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
@@ -41,10 +41,10 @@ namespace MicMuter.Configuration
             {
                 //Update audio device
                 MicDeviceUtils.SelectConfiguredMic(MicDeviceID);
-                //Mute depending on push-to-talk or push-to-mute
+                //Mute when push-to-talk mode is used
                 if (PTTEnabled)
                 {
-                    MicDeviceUtils.SetMicMute(!PTTInverted);
+                    MicDeviceUtils.SetMicMute(PTTActionMode == "Push-to-talk");
                 }
 
                 //Toggle mute button screen
