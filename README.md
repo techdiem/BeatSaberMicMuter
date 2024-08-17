@@ -1,10 +1,10 @@
 # Beat Saber MicMuter
 A Beat Saber mod for muting your micrphone in some ways:
 * Automatic mute when ingame in singleplayer/multiplayer
-* Push-to-talk
+* Push-to-talk, push-to-mute, push-to-toggle
 * Floating mute button that is always visible except during play.
 
-Compatible with **Beat Saber 1.37.1**
+Compatible with **Beat Saber 1.37.2**
 
 ## Installation
 * Required dependencies (can be installed using Mod Assistant)
@@ -18,7 +18,7 @@ Compatible with **Beat Saber 1.37.1**
 Please restart the game once after the first start with this mod installed, else the config may not be applied.
 You can configure the plugin using the  `Settings (⚙) -> Mod Settings -> MicMuter` menu.
 
-* Microphone: Select your microphone here. Make sure that every name only exists once.
+* Microphone: Select your microphone here. Make sure that every name only exists once on your system.
 ### Submenu: Automatic mute
 * Enabled in singleplayer/party/campaign: Enable automatic muting in every gamemode except multiplayer (singleplayer, party, campaign)
 * Enabled in multiplayer: Enable automatic muting in multiplayer (online)
@@ -26,7 +26,7 @@ You can configure the plugin using the  `Settings (⚙) -> Mod Settings -> MicMu
 ### Submenu: Push-to-talk
 * Enable Push-to-talk: Toggle microphone mute with a controller button
 * Button: Select the button or button combo that should be used to unmute the mic
-* Invert (Push-to-mute): Mute instead of unmute on button press
+* Mode: Mute instead of unmute on button press or toggle the mute state
 ### Submenu: Floating mute button
 * Enable floating mute button: Show a little mute button everywhere instead of ingame
 * Show movement handle: Show a little white handle to the left of the button, grab it and change the position
