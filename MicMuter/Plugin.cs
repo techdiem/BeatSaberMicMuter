@@ -9,6 +9,7 @@ using MicMuter.Configuration;
 using MicMuter.UI;
 using BeatSaberMarkupLanguage.Settings;
 using UnityEngine;
+using BeatSaberMarkupLanguage.Util;
 
 namespace MicMuter {
     [Plugin(RuntimeOptions.SingleStartInit)]
@@ -38,13 +39,30 @@ namespace MicMuter {
             
             //Gameplay events to mute/unmute
             EventMute.Setup();
-            
-            //Register mod settings menu button
-            BSMLSettings.instance.AddSettingsMenu("MicMuter", "MicMuter.UI.ConfigView.bsml", ConfigView.instance);
 
             //Microphone device setup
             MicDeviceUtils.Setup();
 
+        }
+
+        [OnEnable]
+        public void OnEnable()
+        {
+            //Wait for main menu to get initialized
+            MainMenuAwaiter.MainMenuInitializing += MenuReadyInit;
+        }
+
+        [OnDisable]
+        public void OnDisable()
+        {
+            MainMenuAwaiter.MainMenuInitializing -= MenuReadyInit;
+            BSMLSettings.Instance.RemoveSettingsMenu(ConfigView.instance);
+        }
+
+        private void MenuReadyInit()
+        {
+            //Register mod settings menu button
+            BSMLSettings.Instance.AddSettingsMenu("MicMuter", "MicMuter.UI.ConfigView.bsml", ConfigView.instance);
         }
 
         private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj) {
