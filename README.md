@@ -4,7 +4,7 @@ A Beat Saber mod for muting your micrphone in some ways:
 * Push-to-talk, push-to-mute, push-to-toggle
 * Floating mute button that is always visible except during play.
 
-Compatible with **Beat Saber 1.37.5**
+Compatible with **Beat Saber 1.40.0**
 
 ## Installation
 * Required dependencies (can be installed using Mod Assistant)
