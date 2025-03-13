@@ -1,10 +1,10 @@
 # Beat Saber MicMuter
-A Beat Saber mod for muting your micrphone in some ways:
+A Beat Saber mod for muting your micrphone system-wide in some ways:
 * Automatic mute when ingame in singleplayer/multiplayer
 * Push-to-talk, push-to-mute, push-to-toggle
 * Floating mute button that is always visible except during play.
 
-Compatible with **Beat Saber 1.40.0**
+Compatible with **Beat Saber 1.40.3**
 
 ## Installation
 * Required dependencies (can be installed using Mod Assistant)
