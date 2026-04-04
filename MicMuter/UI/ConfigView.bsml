@@ -44,7 +44,7 @@
                  hover-hint="Toggle microphone mute with a controller button" />
           <dropdown-list-setting options="ptt-key-options" text="Button" value="ptt-key-value" apply-on-change="true"
                         hover-hint="Select the button or button combo that should be used to unmute the mic."/>
-		  <dropdown-list-setting options="ptt-action-options" text="Button" value="ptt-action-value" apply-on-change="true"
+		  <dropdown-list-setting options="ptt-action-options" text="Mode" value="ptt-action-value" apply-on-change="true"
 						hover-hint="Select the action mode: Should a pressed button mute, unmute or toggle the state?"/>
         </vertical>
       </settings-container>

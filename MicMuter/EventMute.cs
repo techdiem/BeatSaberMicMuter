@@ -7,7 +7,7 @@ using BS_Utils.Utilities;
 
 namespace MicMuter {
     public static class EventMute {
-        public static MultiplayerSessionManager SessionManager { get; private set; }
+        public static IMultiplayerSessionManager<IConnectedPlayer> SessionManager;
         private static bool onlineActivated = false;
         private static bool mpconnected = false;
 
@@ -30,7 +30,9 @@ namespace MicMuter {
             }
 
             //Get Multiplayer Session Manager
-            SessionManager = Resources.FindObjectsOfTypeAll<MultiplayerSessionManager>().FirstOrDefault();
+            SessionManager = Resources.FindObjectsOfTypeAll<MonoBehaviour>()
+                .OfType<IMultiplayerSessionManager<IConnectedPlayer>>()
+                .FirstOrDefault();
 
             if (SessionManager == null) {
                 Plugin.Log.Critical("Can't get Multiplayer SessionManager!");
