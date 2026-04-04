@@ -32,9 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-	<OutputAssemblyName>$(OutputPath)Merged\$(AssemblyName)</OutputAssemblyName>
-  </PropertyGroup>
   <PropertyGroup Condition="$(DefineConstants.Contains('CIBuild')) OR '$(NCrunch)' == '1'">
     <DisableCopyToPlugins>True</DisableCopyToPlugins>
   </PropertyGroup>
@@ -184,9 +181,6 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="ILRepack.targets" />
-  <Target Name="AfterBuild" AfterTargets="ILRepack" Condition="'$(NCrunch)' != '1' AND Exists('$(OutputPath)Merged\$(AssemblyName).dll')">
-    <Copy SourceFiles="$(OutputPath)Merged\$(AssemblyName).dll" DestinationFolder="$(BeatSaberDir)\Plugins" />
-  </Target>
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
